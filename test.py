@@ -43,8 +43,8 @@ customer.orders[101].send_to_kitchen(kitchen)
 
 
 
-kitchen.start_preparing(1)  # Start preparing Pizza
-kitchen.complete_item(2)  # Complete Salad
+kitchen.start_preparing(1) 
+kitchen.complete_item(2)  
 
 # Display the invoice (simulating customer review)
 customer.orders[101].display_invoice()
