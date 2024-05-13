@@ -21,15 +21,47 @@ class Order:
             self.total_cart_cost += order_item.get_total_price()
             self.total_cost += order_item.get_total_price()
             print(f"Added {quantity} of {item_info['description']} to cart. Cart Total: ${self.total_cart_cost:.2f}")
-
         else:
             print("Item not found.")
 
-    def remove_item(self, item):
-        if item in self.items:
-            self.total_cost -= item.get_total_price()
-            self.items.remove(item)
-            print(f"Removed item {item.description} from order.")
+    def remove_item_from_cart(self, item_id, quantity_to_remove):
+        items_to_remove = []  # List to store items to be removed if they are to be fully removed
+        total_removed_cost = 0  # Cost of removed items to adjust the total cart cost
+
+        # First, find the item and calculate the total amount to remove
+        for item in self.cart:
+            if item.item_id == item_id:
+                if item.quantity > quantity_to_remove:
+                    # Adjust the quantity of the item in the cart
+                    item.quantity -= quantity_to_remove
+                    total_removed_cost += item.price * quantity_to_remove
+                    print(f"Removed {quantity_to_remove} of {item.description}. Remaining: {item.quantity}")
+                    break  # Since we only need to remove quantity from one match, we can break after adjusting
+                elif item.quantity == quantity_to_remove:
+                    # If the quantity matches exactly, remove the item entirely
+                    items_to_remove.append(item)
+                    total_removed_cost += item.get_total_price()
+                    print(f"Removed all {item.quantity} of {item.description}.")
+                    break  # Remove the item completely as it matches the quantity exactly
+                else:
+                    # If the found item has less quantity than needed, remove it entirely and continue
+                    quantity_to_remove -= item.quantity
+                    total_removed_cost += item.get_total_price()
+                    items_to_remove.append(item)
+
+        # Remove items from the cart
+        for item in items_to_remove:
+            self.cart.remove(item)
+
+        # Update total cart cost
+        self.total_cart_cost -= total_removed_cost
+
+
+    # def remove_item(self, item):
+    #     if item in self.items:
+    #         self.total_cost -= item.get_total_price()
+    #         self.items.remove(item)
+    #         print(f"Removed item {item.description} from order.")
 
     def send_to_kitchen(self, kitchen):
         if not self.cart:
@@ -42,9 +74,12 @@ class Order:
         self.total_cart_cost = 0.0 # = 0 when send to the kitchen
         print("Order successfully sent to the kitchen.")
         kitchen.receive_order(self)
-        
-    def get_total_cost(self):
-        return sum(item.get_total_price() for item in self.items)
+
+    def display_order_statuses(self):
+        # table_or_delivery = f"Table {item_id.table_id}" if item_id.table_id else f"Delivery ID {item_id.delivery_id}"
+        print(f"Statuses for Order ID {self.order_id} from ")
+        for item in self.items:
+            print(f"{item.quantity} x {item.description}, Status: {item.status}")
     
     def display_invoice(self):
             for item in self.items:

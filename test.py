@@ -37,14 +37,20 @@ customer.order_for_table(order_id=101)
 # Add items to the cart
 customer.orders[101].add_item_to_cart(1, 2, menu) #item_id + quantity
 customer.orders[101].add_item_to_cart(2, 1, menu) 
+customer.orders[101].add_item_to_cart(23, 1, menu) 
+customer.orders[101].add_item_to_cart(40, 5, menu) 
+
+customer.orders[101].remove_item_from_cart(40, 1) 
 
 # Send the order to the kitchen
 customer.orders[101].send_to_kitchen(kitchen)
 
-
-
 kitchen.start_preparing(1) 
+# Display the current status of all items in the order
+customer.orders[101].display_order_statuses()
+
 kitchen.complete_item(2)  
+
 
 # Display the invoice (simulating customer review)
 customer.orders[101].display_invoice()

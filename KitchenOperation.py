@@ -11,8 +11,10 @@ class KitchenOperation:
     def update_order_item_status(self, item_id, new_status):
         item = next((itm for itm in self.order_queue if itm.item_id == item_id), None)
         if item:
+            # Determine if item is associated with a table or delivery
+            table_or_delivery = f"Table ID {item.table_id}" if item.table_id else f"Delivery ID {item.delivery_id}"
             item.status = new_status
-            print(f"Status for item {item_id.description} from {item_id} updated to {new_status}.")
+            print(f"Status for {item.description} from {table_or_delivery} updated to {new_status}.")
         else:
             print("Item ID not found.")
 
