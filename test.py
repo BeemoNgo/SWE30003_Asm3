@@ -6,6 +6,7 @@ from OrderItem import OrderItem
 from DineinCustomer import DineInCustomer
 from OnlineCustomer import OnlineCustomer
 from OrderManagement import OrderManagement
+from KitchenOperation import KitchenOperation
 
 
 # Initialize tables
@@ -17,12 +18,12 @@ Table.initialise_tables()
 #     reservation = Reservation(customer_name=name, date="2023-12-25", time="18:00", guests=3)
 #     reservation.make_reservation(date="2023-12-25", time="18:00", guests=3)
 
-# # You can also simulate cancellations and see the reservation ID being reused:
 # reservation_to_cancel = Reservation(customer_name="Customer for cancellation", date="2023-12-25", time="19:00", guests=2)
 # reservation_to_cancel.make_reservation(date="2023-12-25", time="19:00", guests=2)
 # reservation_to_cancel.cancel_reservation()
 
 menu = Menu('menu_items.json') 
+kitchen = KitchenOperation()
 
 # Initialize the Order Management system with the menu
 order_mgmt = OrderManagement(menu)
@@ -38,10 +39,18 @@ customer.orders[101].add_item_to_cart(1, 2, menu) #item_id + quantity
 customer.orders[101].add_item_to_cart(2, 1, menu) 
 
 # Send the order to the kitchen
-customer.orders[101].send_to_kitchen()
+customer.orders[101].send_to_kitchen(kitchen)
+
+
+
+kitchen.start_preparing(1)  # Start preparing Pizza
+kitchen.complete_item(2)  # Complete Salad
 
 # Display the invoice (simulating customer review)
 customer.orders[101].display_invoice()
+
+
+
 
 
 

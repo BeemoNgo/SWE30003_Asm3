@@ -3,11 +3,14 @@ from Menu import Menu
 # from KitchenOperation import KitchenOperation
 
 class OrderItem:
-    def __init__(self, item_id, description, price, quantity, menu, special_request=""):
+    def __init__(self, item_id, description, price, quantity, menu, order_id=None, table_id=None, delivery_id=None, special_request=""):
         self.item_id = item_id
         self.description = description
         self.price = float(price)
         self.quantity = int(quantity)  
+        self.order_id = order_id
+        self.table_id = table_id
+        self.delivery_id = delivery_id
         self.special_request = special_request
         self.menu = menu 
         # self.order_time = datetime.now()

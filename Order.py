@@ -1,4 +1,5 @@
 from OrderItem import OrderItem
+from KitchenOperation import KitchenOperation
 from Table import Table
 
 class Order:
@@ -15,7 +16,7 @@ class Order:
     def add_item_to_cart(self, item_id, quantity, menu):
         item_info = menu.get_item(item_id)
         if item_info:
-            order_item = OrderItem(item_id, item_info['description'], item_info['price'], quantity, menu)
+            order_item = OrderItem(item_id, item_info['description'], item_info['price'], quantity, menu, order_id = self.order_id, table_id = self.table_id, delivery_id = self.delivery_id)
             self.cart.append(order_item)
             self.total_cart_cost += order_item.get_total_price()
             self.total_cost += order_item.get_total_price()
@@ -30,7 +31,7 @@ class Order:
             self.items.remove(item)
             print(f"Removed item {item.description} from order.")
 
-    def send_to_kitchen(self):
+    def send_to_kitchen(self, kitchen):
         if not self.cart:
             print("Cart is empty. Add items before sending to kitchen.")
             return
@@ -40,6 +41,7 @@ class Order:
         self.cart = []  # Clear the cart after sending to kitchen
         self.total_cart_cost = 0.0 # = 0 when send to the kitchen
         print("Order successfully sent to the kitchen.")
+        kitchen.receive_order(self)
         
     def get_total_cost(self):
         return sum(item.get_total_price() for item in self.items)
