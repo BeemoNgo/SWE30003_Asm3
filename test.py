@@ -40,8 +40,8 @@ customer.orders[101].add_item_to_cart(2, 1, menu)
 # Send the order to the kitchen
 customer.orders[101].send_to_kitchen()
 
-# # Display the invoice (simulating customer review)
-# customer.orders[101].display_invoice()
+# Display the invoice (simulating customer review)
+customer.orders[101].display_invoice()
 
 
 

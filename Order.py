@@ -8,23 +8,27 @@ class Order:
         self.delivery_id = delivery_id
         self.items = []  # list of OrderItem
         self.cart = [] #list of OrderItem before sending into the kitchen
-        self.total_cost = 0.0
+        self.total_cart_cost = 0.0 #total cost of order items before sending to kitchen
+        self.total_cost = 0.0 
         self.is_paid = False
 
     def add_item_to_cart(self, item_id, quantity, menu):
         item_info = menu.get_item(item_id)
         if item_info:
-            order_item = OrderItem(item_id, item_info['description'], item_info['price'], quantity, menu=menu)
+            order_item = OrderItem(item_id, item_info['description'], item_info['price'], quantity, menu)
             self.cart.append(order_item)
-            print(f"Added {quantity} of {item_info['description']} to cart.")
+            self.total_cart_cost += order_item.get_total_price()
+            self.total_cost += order_item.get_total_price()
+            print(f"Added {quantity} of {item_info['description']} to cart. Cart Total: ${self.total_cart_cost:.2f}")
+
         else:
             print("Item not found.")
 
-    def remove_item(self, order_item):
-        if order_item in self.items:
-            self.total_cost -= order_item.get_total_price()
-            self.items.remove(order_item)
-            print(f"Removed item {order_item.description} from order.")
+    def remove_item(self, item):
+        if item in self.items:
+            self.total_cost -= item.get_total_price()
+            self.items.remove(item)
+            print(f"Removed item {item.description} from order.")
 
     def send_to_kitchen(self):
         if not self.cart:
@@ -34,15 +38,15 @@ class Order:
             item.update_status("Pending")
             self.items.append(item)  # Move item from cart to items list
         self.cart = []  # Clear the cart after sending to kitchen
+        self.total_cart_cost = 0.0 # = 0 when send to the kitchen
         print("Order successfully sent to the kitchen.")
         
     def get_total_cost(self):
-        self.total_cost = sum(item.get_total_price() for item in self.items)
-        return self.total_cost
+        return sum(item.get_total_price() for item in self.items)
     
     def display_invoice(self):
             for item in self.items:
-                print(f"{item.quantity}x {item.description} at ${item.price} each: Total ${item.get_total_price()}")
+                print(f"{item.quantity}x {item.description} with ${item.price} each: Total ${item.get_total_price()}")
             print(f"Order Total: ${self.total_cost}")
 
     def mark_as_paid(self): 

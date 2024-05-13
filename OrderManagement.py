@@ -13,8 +13,3 @@ class OrderManagement:
         else:
             print(f"Order {order_id} already exists.")
 
-    # def review_invoice(self):
-    #     # Example of reviewing invoice
-    #     total = sum(item.price * item.quantity for item in self.orders if item.order_id == self.table_id)
-    #     print(f"Invoice for {self.customer_name} at table {self.table_id}: ${total}")
-    #     return total

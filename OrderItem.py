@@ -3,15 +3,13 @@ from Menu import Menu
 # from KitchenOperation import KitchenOperation
 
 class OrderItem:
-    def __init__(self, order_id, quantity, description, price, menu, special_request=""):
-        self.order_id = order_id
-        # self.item_id = item_id
-        self.quantity = quantity
-        # self.type_of_order = type_of_order #Dine-in or delivery
+    def __init__(self, item_id, description, price, quantity, menu, special_request=""):
+        self.item_id = item_id
         self.description = description
-        self.price = price
+        self.price = float(price)
+        self.quantity = int(quantity)  
         self.special_request = special_request
-        self.menu = menu  # Pass the menu object to OrderItem
+        self.menu = menu 
         # self.order_time = datetime.now()
         self.status = None  # could be 'pending', 'preparing', 'served'
 
@@ -23,7 +21,7 @@ class OrderItem:
     
     def update_status(self, new_status):
         self.status = new_status
-        print(f"Status of {self.order_id} updated to {new_status}.")
+        # print(f"Status of {self.item_id} updated to {new_status}.")
 
     def add_special_request(self, request):
         self.special_request = request
