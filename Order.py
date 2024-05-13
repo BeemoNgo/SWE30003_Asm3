@@ -7,15 +7,16 @@ class Order:
         self.table_id = table_id
         self.delivery_id = delivery_id
         self.items = []  # list of OrderItem
+        self.cart = [] #list of OrderItem before sending into the kitchen
         self.total_cost = 0.0
         self.is_paid = False
 
-    def add_item(self, item_id, quantity, menu):
+    def add_item_to_cart(self, item_id, quantity, menu):
         item_info = menu.get_item(item_id)
         if item_info:
-            order_item = OrderItem(item_id, item_info['description'], item_info['price'], quantity)
-            self.items.append(order_item)
-            print(f"Added {quantity} of {item_info['description']} to order.")
+            order_item = OrderItem(item_id, item_info['description'], item_info['price'], quantity, menu=menu)
+            self.cart.append(order_item)
+            print(f"Added {quantity} of {item_info['description']} to cart.")
         else:
             print("Item not found.")
 
@@ -26,15 +27,24 @@ class Order:
             print(f"Removed item {order_item.description} from order.")
 
     def send_to_kitchen(self):
-        for item in self.items:
+        if not self.cart:
+            print("Cart is empty. Add items before sending to kitchen.")
+            return
+        for item in self.cart:
             item.update_status("Pending")
-        print("Order successfully sent into the kitchen.")
-
+            self.items.append(item)  # Move item from cart to items list
+        self.cart = []  # Clear the cart after sending to kitchen
+        print("Order successfully sent to the kitchen.")
+        
+    def get_total_cost(self):
+        self.total_cost = sum(item.get_total_price() for item in self.items)
+        return self.total_cost
+    
     def display_invoice(self):
             for item in self.items:
                 print(f"{item.quantity}x {item.description} at ${item.price} each: Total ${item.get_total_price()}")
-            print(f"Order Total: ${self.get_total()}")
+            print(f"Order Total: ${self.total_cost}")
 
-    def mark_as_paid(self):
+    def mark_as_paid(self): 
         self.is_paid = True
         print("Order has been marked as paid.")

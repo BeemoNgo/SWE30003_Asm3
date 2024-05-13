@@ -6,16 +6,15 @@ class OrderManagement:
         self.orders = {}
         self.menu = menu
 
-    def add_item_to_order(self, order_id, item_id, quantity):
-        item = self.menu.get_item(item_id)
-        if item:
-            self.orders.append(OrderItem(order_id, item_id, item['description'], item['price'], quantity))
-            print(f"Added {quantity} of {item['description']} to order.")
+    def create_order(self, order_id, table_id=None, delivery_id=None):
+        if order_id not in self.orders:
+            self.orders[order_id] = Order(order_id, table_id, delivery_id)
+            print(f"Order {order_id} created successfully.")
         else:
-            print("Item not found.")
+            print(f"Order {order_id} already exists.")
 
-    def review_invoice(self):
-        # Example of reviewing invoice
-        total = sum(item.price * item.quantity for item in self.orders if item.order_id == self.table_id)
-        print(f"Invoice for {self.customer_name} at table {self.table_id}: ${total}")
-        return total
+    # def review_invoice(self):
+    #     # Example of reviewing invoice
+    #     total = sum(item.price * item.quantity for item in self.orders if item.order_id == self.table_id)
+    #     print(f"Invoice for {self.customer_name} at table {self.table_id}: ${total}")
+    #     return total

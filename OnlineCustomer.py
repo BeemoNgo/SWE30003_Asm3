@@ -1,15 +1,16 @@
 from OrderManagement import OrderManagement
+from Menu import Menu
 from Order import Order
 from Reservation import Reservation
 
 class OnlineCustomer(OrderManagement):
-    def __init__(self, customer_name, delivery_id):
-        super().__init__(customer_name)
+    def __init__(self, menu, customer_name, delivery_id):
+        super().__init__(menu)
+        self.customer_name = customer_name
         self.delivery_id = delivery_id
 
-    def create_order(self, order_id):
-        new_order = Order(order_id, delivery_id=self.delivery_id)
-        self.add_order(new_order)
+    def order_for_delivery(self, order_id):
+        self.create_order(order_id, delivery_id=self.delivery_id)
 
     # def make_reservation():
 
