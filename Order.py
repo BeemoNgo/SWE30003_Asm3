@@ -35,7 +35,7 @@ class Order:
                     # Adjust the quantity of the item in the cart
                     item.quantity -= quantity_to_remove
                     total_removed_cost += item.price * quantity_to_remove
-                    print(f"Removed {quantity_to_remove} of {item.description}. Remaining: {item.quantity}")
+                    print(f"Removed {quantity_to_remove} of {item.description}. Remaining: {item.quantity}. Cart Total: ${self.total_cart_cost - total_removed_cost:.2f}")
                     break  # Since we only need to remove quantity from one match, we can break after adjusting
                 elif item.quantity == quantity_to_remove:
                     # If the quantity matches exactly, remove the item entirely
