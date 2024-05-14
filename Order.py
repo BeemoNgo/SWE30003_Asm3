@@ -55,6 +55,7 @@ class Order:
 
         # Update total cart cost
         self.total_cart_cost -= total_removed_cost
+        self.total_cost -=total_removed_cost
 
 
     # def remove_item(self, item):
@@ -84,7 +85,7 @@ class Order:
     def display_invoice(self):
             for item in self.items:
                 print(f"{item.quantity}x {item.description} with ${item.price} each: Total ${item.get_total_price()}")
-            print(f"Order Total: ${self.total_cost}")
+            print(f"Order Total: ${self.total_cost:.2f}")
 
     def mark_as_paid(self): 
         self.is_paid = True
