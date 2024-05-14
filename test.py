@@ -7,6 +7,8 @@ from DineinCustomer import DineInCustomer
 from OnlineCustomer import OnlineCustomer
 from OrderManagement import OrderManagement
 from KitchenOperation import KitchenOperation
+from Payment import Payment
+from Card import Card
 
 
 # Initialize tables
@@ -55,7 +57,8 @@ kitchen.complete_item(2)
 # Display the invoice (simulating customer review)
 customer.orders[101].display_invoice()
 
-
+# Simulate card payment for the total order cost
+Card.process_payment(customer.orders[101].total_cost)
 
 
 
