@@ -13,4 +13,3 @@ class Payment:
         self.order.mark_as_paid()
         print("Payment processed successfully. Order marked as paid.")
         return True
-    

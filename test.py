@@ -22,7 +22,8 @@ Table.initialise_tables()
 # reservation_to_cancel.make_reservation(date="2023-12-25", time="19:00", guests=2)
 # reservation_to_cancel.cancel_reservation()
 
-menu = Menu('menu_items.json') 
+menu = Menu('menu_items.json')
+menu.display_menu()
 kitchen = KitchenOperation()
 
 # Initialize the Order Management system with the menu
@@ -32,24 +33,28 @@ order_mgmt = OrderManagement(menu)
 customer = DineInCustomer(menu, "John Doe", table_id=10)
 
 # Customer creates an order
-customer.order_for_table(order_id=101)
+order = customer.order_for_table(order_id=101)
+
+#Attach the KitchenOperation as an observer to the order
+order.attach(kitchen)
+
 
 # Add items to the cart
 customer.orders[101].add_item_to_cart(1, 2, menu) #item_id + quantity
-customer.orders[101].add_item_to_cart(2, 1, menu) 
-customer.orders[101].add_item_to_cart(23, 1, menu) 
-customer.orders[101].add_item_to_cart(40, 5, menu) 
+customer.orders[101].add_item_to_cart(2, 1, menu)
+customer.orders[101].add_item_to_cart(23, 1, menu)
+customer.orders[101].add_item_to_cart(40, 5, menu)
 
-customer.orders[101].remove_item_from_cart(40, 1) 
+customer.orders[101].remove_item_from_cart(40, 1)
 
 # Send the order to the kitchen
 customer.orders[101].send_to_kitchen(kitchen)
 
-kitchen.start_preparing(1) 
+kitchen.start_preparing(1)
 # Display the current status of all items in the order
 customer.orders[101].display_order_statuses()
 
-kitchen.complete_item(2)  
+kitchen.complete_item(2)
 
 
 # Display the invoice (simulating customer review)
@@ -76,7 +81,7 @@ customer.orders[101].display_invoice()
 # while True:
 #     print("\n1: Make a reservation\n2: Order food\n3: Make payment\n4: Exit")
 #     choice = input("Choose an action: ")
-    
+
 #     if choice == '1':
 #         print("Making a reservation...")
 #         # Assume reservation details are predefined for simplicity

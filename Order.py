@@ -1,8 +1,9 @@
+from Subject import Subject
 from OrderItem import OrderItem
 from KitchenOperation import KitchenOperation
 from Table import Table
 
-class Order:
+class Order(Subject):
     def __init__(self, order_id, table_id=None, delivery_id=None):
         self.order_id = order_id
         self.table_id = table_id
@@ -10,8 +11,19 @@ class Order:
         self.items = []  # list of OrderItem
         self.cart = [] #list of OrderItem before sending into the kitchen
         self.total_cart_cost = 0.0 #total cost of order items before sending to kitchen
-        self.total_cost = 0.0 
+        self.total_cost = 0.0
         self.is_paid = False
+        self._observers = []  # List to keep track of observers
+
+    def attach(self, observer):
+        self._observers.append(observer)
+
+    def detach(self, observer):
+        self._observers.remove(observer)
+
+    def notify(self):
+        for observer in self._observers:
+            observer.update(self)
 
     def add_item_to_cart(self, item_id, quantity, menu):
         item_info = menu.get_item(item_id)
@@ -74,18 +86,20 @@ class Order:
         self.total_cart_cost = 0.0 # = 0 when send to the kitchen
         print("Order successfully sent to the kitchen.")
         kitchen.receive_order(self)
+        self.notify()  # Notify observers when the order is sent to the kitchen
+
 
     def display_order_statuses(self):
         # table_or_delivery = f"Table {item_id.table_id}" if item_id.table_id else f"Delivery ID {item_id.delivery_id}"
         print(f"Statuses for Order ID {self.order_id} from ")
         for item in self.items:
             print(f"{item.quantity} x {item.description}, Status: {item.status}")
-    
+
     def display_invoice(self):
             for item in self.items:
                 print(f"{item.quantity}x {item.description} with ${item.price} each: Total ${item.get_total_price()}")
             print(f"Order Total: ${self.total_cost}")
 
-    def mark_as_paid(self): 
+    def mark_as_paid(self):
         self.is_paid = True
         print("Order has been marked as paid.")
