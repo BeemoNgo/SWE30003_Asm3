@@ -23,7 +23,7 @@ Table.initialise_tables()
 # reservation_to_cancel.cancel_reservation()
 
 menu = Menu('menu_items.json')
-menu.display_menu()
+# menu.display_menu()
 kitchen = KitchenOperation()
 
 # Initialize the Order Management system with the menu

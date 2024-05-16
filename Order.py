@@ -85,15 +85,28 @@ class Order(Subject):
         self.cart = []  # Clear the cart after sending to kitchen
         self.total_cart_cost = 0.0 # = 0 when send to the kitchen
         print("Order successfully sent to the kitchen.")
-        kitchen.receive_order(self)
         self.notify()  # Notify observers when the order is sent to the kitchen
 
 
     def display_order_statuses(self):
-        # table_or_delivery = f"Table {item_id.table_id}" if item_id.table_id else f"Delivery ID {item_id.delivery_id}"
-        print(f"Statuses for Order ID {self.order_id} from ")
+        grouped_items = {} # Create a dictionary to group items by table or delivery ID
+        
         for item in self.items:
-            print(f"{item.quantity} x {item.description}, Status: {item.status}")
+            if item.table_id:
+                key = f"Table {item.table_id}"
+            else:
+                key = f"Delivery ID {item.delivery_id}"
+            
+            if key not in grouped_items:
+                grouped_items[key] = []
+            grouped_items[key].append(item)
+        
+        # Display the statuses grouped by table or delivery
+        for key, items in grouped_items.items():
+            print(f"Statuses for {key}:")
+            for item in items:
+                print(f"{item.quantity} x {item.description}, Status: {item.status}")
+
 
     def display_invoice(self):
             for item in self.items:

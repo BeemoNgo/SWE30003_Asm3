@@ -10,6 +10,8 @@ class OrderManagement:
         if order_id not in self.orders:
             self.orders[order_id] = Order(order_id, table_id, delivery_id)
             print(f"Order {order_id} created successfully.")
+            return self.orders[order_id]
         else:
             print(f"Order {order_id} already exists.")
+            return self.orders[order_id]
 

@@ -4,16 +4,11 @@ class KitchenOperation(Observer):
     def __init__(self):
         self.order_queue = []
 
-    def receive_order(self, order):
+    def update(self, order):
         for item in order.items:
             self.order_queue.append(item)
             table_or_delivery = f"Table {item.table_id}" if item.table_id else f"Delivery ID {item.delivery_id}"
             print(f"Order ID {order.order_id}\n{table_or_delivery} \n{item.quantity} x {item.description}")
-
-    def update(self, order):
-        print(f"Kitchen notified of changes in Order ID {order.order_id}.")
-        for item in order.items:
-            print(f"Confirmed Order: {item.quantity} x {item.description}, Status: {item.status}")
 
     def update_order_item_status(self, item_id, new_status):
         item = next((itm for itm in self.order_queue if itm.item_id == item_id), None)
