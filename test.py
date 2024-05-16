@@ -50,6 +50,7 @@ customer.orders[101].remove_item_from_cart(40, 1)
 # Send the order to the kitchen
 customer.orders[101].send_to_kitchen(kitchen)
 
+kitchen.update(order)
 kitchen.start_preparing(1)
 # Display the current status of all items in the order
 customer.orders[101].display_order_statuses()
