@@ -29,47 +29,48 @@ kitchen = KitchenOperation()
 
 order_mgmt = OrderManagement(menu)
 OrderManagement.initialise_system()  # Initialize the tables and system
+factory = CustomerFactory()
 
-# Create a new dine-in order
-dine_in_order = order_mgmt.create_order("dine_in", "John Doe")
-# Create a new delivery order
-delivery_order = order_mgmt.create_order("delivery", "Harry Jane")
+online_customer = factory.get_customer("delivery", menu, "Harry Jane")
+# Customer makes a reservation
+online_customer.make_reservation("2024-05-25", "18:00", 2)
 
-
-# # Simulate a Dine-In Customer
-# customer = DineInCustomer(menu, "John Doe", table_id=10)
-
-# # Customer creates an order
-# order = customer.order_for_table(order_id=101)
-
-#Attach the KitchenOperation as an observer to the order
-dine_in_order.attach(kitchen)
+# # Create a new dine-in order
+# dine_in_order = order_mgmt.create_order("dine_in", "John Doe")
+# # Create a new delivery order
+# delivery_order = order_mgmt.create_order("delivery", "Harry Jane")
 
 
-# Add items to the cart
-dine_in_order.add_item_to_cart(1, 2, menu)  # item_id + quantity
-dine_in_order.add_item_to_cart(2, 1, menu)
-dine_in_order.add_item_to_cart(23, 1, menu)
-dine_in_order.add_item_to_cart(40, 5, menu)
 
-# Remove one item from the cart
-dine_in_order.remove_item_from_cart(40, 1)
 
-# Send the order to the kitchen
-dine_in_order.send_to_kitchen(kitchen)
+# #Attach the KitchenOperation as an observer to the order
+# dine_in_order.attach(kitchen)
 
-# Simulate the kitchen preparing an item
-kitchen.update(dine_in_order)  # Assuming this method handles updating order status
-kitchen.start_preparing(1)  # Assuming this method handles starting preparation of an item
 
-# Display the current status of all items in the order
-dine_in_order.display_order_statuses()
+# # Add items to the cart
+# dine_in_order.add_item_to_cart(1, 2, menu)  # item_id + quantity
+# dine_in_order.add_item_to_cart(2, 1, menu)
+# dine_in_order.add_item_to_cart(23, 1, menu)
+# dine_in_order.add_item_to_cart(40, 5, menu)
 
-# Simulate the kitchen completing an item
-kitchen.complete_item(2)  # Assuming this method marks an item as completed
+# # Remove one item from the cart
+# dine_in_order.remove_item_from_cart(40, 1)
 
-# Display the invoice (simulating customer review)
-dine_in_order.display_invoice()
+# # Send the order to the kitchen
+# dine_in_order.send_to_kitchen(kitchen)
+
+# # Simulate the kitchen preparing an item
+# kitchen.update(dine_in_order)  # Assuming this method handles updating order status
+# kitchen.start_preparing(1)  # Assuming this method handles starting preparation of an item
+
+# # Display the current status of all items in the order
+# dine_in_order.display_order_statuses()
+
+# # Simulate the kitchen completing an item
+# kitchen.complete_item(2)  # Assuming this method marks an item as completed
+
+# # Display the invoice (simulating customer review)
+# dine_in_order.display_invoice()
 
 
 

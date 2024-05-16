@@ -30,10 +30,12 @@ class Reservation:
         available_tables = self.check_availability(date, time, guests)
         if available_tables:
             self.table_id = available_tables[0]  # Choose the first available table
-            self.table_id.reserve(date, time)
+            self.table_id.reserve(date, time) 
             print(f"Reservation {self.reservation_id} made for {self.customer_name} with {guests} guests on {date} at {time} at table {self.table_id.table_id}.")
-        else:
-            print("No tables available for the requested time and date.")
+            return True 
+        print("No tables available for the requested time and date.")
+        return False  
+
 
     def update_reservation(self, new_date=None, new_time=None, new_guests=None):
         if new_guests:
