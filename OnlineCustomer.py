@@ -9,9 +9,6 @@ class OnlineCustomer(OrderManagement):
         self.customer_name = customer_name
         self.delivery_id = delivery_id
 
-    def order_for_delivery(self, order_id):
-        self.create_order(order_id, delivery_id=self.delivery_id)
-
     # def make_reservation():
 
     # def track_order(self, order):
