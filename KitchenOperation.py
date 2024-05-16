@@ -12,8 +12,6 @@ class KitchenOperation(Observer):
 
     def update(self, order):
         print(f"Kitchen notified of changes in Order ID {order.order_id}.")
-        for item in order.cart:
-            print(f"Pending Order: {item.quantity} x {item.description}")
         for item in order.items:
             print(f"Confirmed Order: {item.quantity} x {item.description}, Status: {item.status}")
 

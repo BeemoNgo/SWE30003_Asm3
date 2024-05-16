@@ -13,16 +13,16 @@ class Order(Subject):
         self.total_cart_cost = 0.0 #total cost of order items before sending to kitchen
         self.total_cost = 0.0
         self.is_paid = False
-        self._observers = []  # List to keep track of observers
+        self.observers = []  # List to keep track of observers
 
     def attach(self, observer):
-        self._observers.append(observer)
+        self.observers.append(observer)
 
     def detach(self, observer):
-        self._observers.remove(observer)
+        self.observers.remove(observer)
 
     def notify(self):
-        for observer in self._observers:
+        for observer in self.observers:
             observer.update(self)
 
     def add_item_to_cart(self, item_id, quantity, menu):
@@ -47,7 +47,7 @@ class Order(Subject):
                     # Adjust the quantity of the item in the cart
                     item.quantity -= quantity_to_remove
                     total_removed_cost += item.price * quantity_to_remove
-                    print(f"Removed {quantity_to_remove} of {item.description}. Remaining: {item.quantity}")
+                    print(f"Removed {quantity_to_remove} of {item.description}. Remaining: {item.quantity}. Cart Total: ${self.total_cart_cost - total_removed_cost:.2f}")
                     break  # Since we only need to remove quantity from one match, we can break after adjusting
                 elif item.quantity == quantity_to_remove:
                     # If the quantity matches exactly, remove the item entirely
@@ -67,7 +67,7 @@ class Order(Subject):
 
         # Update total cart cost
         self.total_cart_cost -= total_removed_cost
-
+        self.total_cost -= total_removed_cost
 
     # def remove_item(self, item):
     #     if item in self.items:
@@ -98,7 +98,7 @@ class Order(Subject):
     def display_invoice(self):
             for item in self.items:
                 print(f"{item.quantity}x {item.description} with ${item.price} each: Total ${item.get_total_price()}")
-            print(f"Order Total: ${self.total_cost}")
+            print(f"Order Total: ${self.total_cost:.2f}")
 
     def mark_as_paid(self):
         self.is_paid = True
