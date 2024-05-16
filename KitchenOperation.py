@@ -14,7 +14,7 @@ class KitchenOperation(Observer):
         item = next((itm for itm in self.order_queue if itm.item_id == item_id), None)
         if item:
             # Determine if item is associated with a table or delivery
-            table_or_delivery = f"Table ID {item.table_id}" if item.table_id else f"Delivery ID {item.delivery_id}"
+            table_or_delivery = f"Table {item.table_id}" if item.table_id else f"Delivery ID {item.delivery_id}"
             item.status = new_status
             print(f"Status for {item.description} from {table_or_delivery} updated to {new_status}.")
         else:

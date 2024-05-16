@@ -3,6 +3,7 @@ from Reservation import Reservation
 from Menu import Menu
 from Order import Order
 from OrderItem import OrderItem
+from CustomerFactory import CustomerFactory
 from DineinCustomer import DineInCustomer
 from OnlineCustomer import OnlineCustomer
 from OrderManagement import OrderManagement
@@ -26,40 +27,49 @@ menu = Menu('menu_items.json')
 # menu.display_menu()
 kitchen = KitchenOperation()
 
-# Initialize the Order Management system with the menu
 order_mgmt = OrderManagement(menu)
+OrderManagement.initialise_system()  # Initialize the tables and system
 
-# Simulate a Dine-In Customer
-customer = DineInCustomer(menu, "John Doe", table_id=10)
+# Create a new dine-in order
+dine_in_order = order_mgmt.create_order("dine_in", "John Doe")
+# Create a new delivery order
+delivery_order = order_mgmt.create_order("delivery", "Harry Jane")
 
-# Customer creates an order
-order = customer.order_for_table(order_id=101)
+
+# # Simulate a Dine-In Customer
+# customer = DineInCustomer(menu, "John Doe", table_id=10)
+
+# # Customer creates an order
+# order = customer.order_for_table(order_id=101)
 
 #Attach the KitchenOperation as an observer to the order
-order.attach(kitchen)
+dine_in_order.attach(kitchen)
 
 
 # Add items to the cart
-customer.orders[101].add_item_to_cart(1, 2, menu) #item_id + quantity
-customer.orders[101].add_item_to_cart(2, 1, menu)
-customer.orders[101].add_item_to_cart(23, 1, menu)
-customer.orders[101].add_item_to_cart(40, 5, menu)
+dine_in_order.add_item_to_cart(1, 2, menu)  # item_id + quantity
+dine_in_order.add_item_to_cart(2, 1, menu)
+dine_in_order.add_item_to_cart(23, 1, menu)
+dine_in_order.add_item_to_cart(40, 5, menu)
 
-customer.orders[101].remove_item_from_cart(40, 1)
+# Remove one item from the cart
+dine_in_order.remove_item_from_cart(40, 1)
 
 # Send the order to the kitchen
-customer.orders[101].send_to_kitchen(kitchen)
+dine_in_order.send_to_kitchen(kitchen)
 
-kitchen.update(order)
-kitchen.start_preparing(1)
+# Simulate the kitchen preparing an item
+kitchen.update(dine_in_order)  # Assuming this method handles updating order status
+kitchen.start_preparing(1)  # Assuming this method handles starting preparation of an item
+
 # Display the current status of all items in the order
-customer.orders[101].display_order_statuses()
+dine_in_order.display_order_statuses()
 
-kitchen.complete_item(2)
-
+# Simulate the kitchen completing an item
+kitchen.complete_item(2)  # Assuming this method marks an item as completed
 
 # Display the invoice (simulating customer review)
-customer.orders[101].display_invoice()
+dine_in_order.display_invoice()
 
 
 

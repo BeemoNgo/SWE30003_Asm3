@@ -7,9 +7,9 @@ class DineInCustomer(OrderManagement):
         self.customer_name = customer_name
         self.table_id = table_id
 
-    def order_for_table(self, order_id):
-        self.create_order(order_id, table_id=self.table_id)
-        return self.orders[order_id]
+    # def order_for_table(self, order_id):
+    #     self.create_order(order_id, table_id=self.table_id)
+    #     return self.orders[order_id]
     
     def provide_feedback(self, feedback):
         print(f"Feedback from {self.customer_name}: {feedback}")
