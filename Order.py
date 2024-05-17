@@ -32,7 +32,7 @@ class Order(Subject):
             self.cart.append(order_item)
             self.total_cart_cost += order_item.get_total_price()
             self.total_cost += order_item.get_total_price()
-            print(f"Added {quantity} of {item_info['description']} to cart. Cart Total: ${self.total_cart_cost:.2f}")
+            print(f"Added {quantity} of {item_info['description']} with {special_request} to cart. Cart Total: ${self.total_cart_cost:.2f}")
         else:
             print("Item not found.")
 

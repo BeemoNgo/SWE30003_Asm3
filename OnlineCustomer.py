@@ -1,6 +1,7 @@
 from OrderManagement import OrderManagement
 from Menu import Menu
 from Order import Order
+from BankCard import BankCard
 from Reservation import Reservation
 
 class OnlineCustomer(OrderManagement):
@@ -11,6 +12,7 @@ class OnlineCustomer(OrderManagement):
         self.order = self.create_order("delivery", customer_name, kitchen)
         self.reservation = None
         self.payment_status = False
+        self.kitchen = kitchen
 
     def make_reservation(self, date, time, guests): #Allows the customer to make a reservation online
         self.reservation = Reservation(self.customer_name, date, time, guests)
@@ -27,16 +29,21 @@ class OnlineCustomer(OrderManagement):
         else:
             print("No active order to track.")
 
-    def place_order(self): #Places the order if payment is confirmed
+    def place_order(self):
         if self.payment_status:
-            self.order = self.create_order("delivery", self.customer_name)
             if self.order:
+                self.order.send_to_kitchen(self.kitchen)
                 print(f"Order placed successfully with ID {self.order.order_id}")
             else:
                 print("Failed to place order.")
         else:
             print("Payment must be confirmed before placing the order.")
 
-    def pay_for_order(self):
-        self.payment_status = True
-        print("Payment confirmed.")
+    def make_payment(self, amount):
+        payment = BankCard(self.order)
+        if payment.make_payment(amount):
+            self.payment_status = True
+            print("Payment successful.")
+            self.place_order()  # Automatically place the order if payment is successful
+        else:
+            print("Payment failed.")
