@@ -59,7 +59,7 @@ class OnlineSystem:
         if table and table.status == "ordered":
             order = self.get_order_by_table(table_id)
             if order:
-                if payment_method == "credit_card":
+                if payment_method == "card":
                     payment = BankCard(order)
                 elif payment_method == "cash":
                     payment = Cash(order)

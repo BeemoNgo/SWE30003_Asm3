@@ -4,8 +4,8 @@ from Order import Order
 from Reservation import Reservation
 
 class OnlineCustomer(OrderManagement):
-    def __init__(self, menu, customer_name, delivery_id, kitchen):
-        super().__init__(menu)
+    def __init__(self, menu, customer_name, delivery_id, kitchen, online_system):
+        super().__init__(menu, online_system)
         self.customer_name = customer_name
         self.delivery_id = delivery_id
         self.order = self.create_order("delivery", customer_name, kitchen)

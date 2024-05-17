@@ -6,9 +6,10 @@ class OrderManagement:
     next_delivery_id = 1  # Starting ID for deliveries
     next_order_id = 100  # Starting order ID for keeping track of orders uniquely
 
-    def __init__(self, menu):
+    def __init__(self, menu, online_system):
         self.orders = {}
         self.menu = menu
+        self.online_system = online_system 
 
     @staticmethod
     def initialise_system():
@@ -39,12 +40,14 @@ class OrderManagement:
                 return None
             order = Order(order_id, table_id=table.table_id)
             self.orders[order_id] = order
+            self.online_system.orders.append(order)
             table.set_occupy_table()  # Mark the table as occupied
             order.attach(kitchen)  # Attach the kitchen observer
         elif customer_type == "delivery":
             delivery_id = self.get_next_delivery_id()
             order = Order(order_id, delivery_id=delivery_id)
             self.orders[order_id] = order
+            self.online_system.orders.append(order)
             order.attach(kitchen)  
         print(f"Order {order_id} created successfully.")
         return self.orders[order_id]

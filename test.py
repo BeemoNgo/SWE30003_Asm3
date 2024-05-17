@@ -20,7 +20,7 @@ menu = Menu('menu_items.json')
 kitchen = KitchenOperation()
 
 OrderManagement.initialise_system()  # Initialize the tables and system
-factory = CustomerFactory()
+factory = CustomerFactory(online_system)
 
 online_customer = factory.get_customer("delivery", menu, "Harry Jane", kitchen)
 # Customer makes a reservation
@@ -61,10 +61,10 @@ online_system.check_table_status()
 # Staff views the total cost of the order
 # Staff accesses the customer's table to get the total price
 online_system.get_order_status_by_table(2)
-# online_system.display_invoice_by_table_id(2)
+online_system.display_invoice_by_table_id(2)
 
-# # Staff processes the payment (assuming amount entered by customer is enough)
-# online_system.process_payment(dine_in_customer.table_id, "credit_card", 50.0)  # Example amount
+# Staff processes the payment (assuming amount entered by customer is enough)
+online_system.process_payment(2, "card", 57.92)  # Example amount
 
 
 
