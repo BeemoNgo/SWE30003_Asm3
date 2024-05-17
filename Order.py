@@ -83,6 +83,10 @@ class Order(Subject):
             self.items.append(item)  # Move item from cart to items list
         self.cart = []  # Clear the cart after sending to kitchen
         self.total_cart_cost = 0.0 # = 0 when send to the kitchen
+        if self.table_id:
+            table = next((t for t in Table.tables if t.table_id == self.table_id), None)
+            if table:
+                table.order_placed()  # Change table status to 'ordered'
         print("Order successfully sent to the kitchen.")
         self.notify()  # Notify observers when the order is sent to the kitchen
 

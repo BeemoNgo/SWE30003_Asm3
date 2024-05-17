@@ -1,6 +1,6 @@
+from OrderManagement import OrderManagement
 from DineinCustomer import DineInCustomer
 from OnlineCustomer import OnlineCustomer
-from OrderManagement import OrderManagement
 from Table import Table
 
 class CustomerFactory:

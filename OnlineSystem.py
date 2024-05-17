@@ -1,37 +1,46 @@
 from Reservation import Reservation
 from Table import Table
 from Order import Order
+from Payment import Payment
+from BankCard import BankCard
+from Cash import Cash
 
 class OnlineSystem:
-    def __init__(self, all_reservations, all_tables):
-        self.reservations = all_reservations
-        self.tables = all_tables
+    def __init__(self):
+        self.reservations = {}
+        self.tables = {table.table_id: table for table in Table.tables}
         self.orders = []
 
-    def get_reservation_info(self, reservation_id): #Manage reservation
+    def get_reservation_info(self, reservation_id):
         reservation = self.reservations.get(reservation_id)
         if reservation:
             print(f"Reservation details: {reservation}")
         else:
             print("Reservation not found.")
 
-    def check_table_status(self, table_id): #Manage table's status
-        table = self.tables.get(table_id)
-        if table:
-            print(f"Table {table_id} status: {table.status}")
-        else:
-            print("Table not found.")
+    def check_table_status(self):
+        for table_id, table in self.tables.items():
+            print(f"Table {table_id}: {table.status}")
 
-    def place_order(self, order):
-        self.orders.append(order)
-        print(f"Order ID {order.order_id} placed.")
-
-    def get_total_cost(self, order_id): #Handle payment process
-        order = next((ord for ord in self.orders if ord.order_id == order_id), None)
+    def get_order_status_by_table(self, table_id):
+        order = self.get_order_by_table(table_id)
         if order:
-            print(f"Total cost for Order ID {order_id}: ${order.get_total():.2f}")
+            order.display_order_statuses()
         else:
-            print("Order ID not found.")
+            print(f"No order found for Table {table_id}.")
+
+    def get_order_by_table(self, table_id):
+        for order in self.orders:
+            if order.table_id == table_id:
+                return order
+        return None
+
+    def display_invoice_by_table_id(self, table_id):
+        order = self.get_order_by_table(table_id)
+        if order:
+            order.display_invoice()
+        else:
+            print(f"No order found for Table {table_id}.")
 
     def modify_order_item(self, order_id, item_id, new_quantity):
         order = next((ord for ord in self.orders if ord.order_id == order_id), None)
@@ -44,3 +53,48 @@ class OnlineSystem:
                 print("Item ID not found.")
         else:
             print("Order ID not found.")
+
+    def process_payment(self, table_id, payment_method, amount):
+        table = self.tables.get(table_id)
+        if table and table.status == "ordered":
+            order = self.get_order_by_table(table_id)
+            if order:
+                if payment_method == "credit_card":
+                    payment = BankCard(order)
+                elif payment_method == "cash":
+                    payment = Cash(order)
+                else:
+                    print("Invalid payment method.")
+                    return
+
+                if payment.make_payment(amount):
+                    table.order_paid()
+                    print(f"Table {table_id} payment processed and table is now free.")
+                else:
+                    print(f"Table {table_id} payment failed.")
+            else:
+                print("Order not found for the table.")
+        else:
+            print("Table is not in 'ordered' status or not found.")
+
+    def make_reservation(self, customer_name, date, time, guests):
+        reservation = Reservation(customer_name, date, time, guests)
+        if reservation.make_reservation(date, time, guests):
+            self.reservations[reservation.reservation_id] = reservation
+            return reservation.reservation_id
+        return None
+
+    def update_reservation(self, reservation_id, new_date=None, new_time=None, new_guests=None):
+        reservation = self.reservations.get(reservation_id)
+        if reservation:
+            reservation.update_reservation(new_date, new_time, new_guests)
+        else:
+            print("Reservation not found.")
+
+    def cancel_reservation(self, reservation_id):
+        reservation = self.reservations.get(reservation_id)
+        if reservation:
+            reservation.cancel_reservation()
+            del self.reservations[reservation_id]
+        else:
+            print("Reservation not found.")

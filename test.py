@@ -1,17 +1,19 @@
 from Table import Table
 from Reservation import Reservation
+from OnlineSystem import OnlineSystem
 from Menu import Menu
 from Order import Order
 from OrderItem import OrderItem
 from CustomerFactory import CustomerFactory
-from DineinCustomer import DineInCustomer
-from OnlineCustomer import OnlineCustomer
 from OrderManagement import OrderManagement
 from KitchenOperation import KitchenOperation
 
 
 # Initialize tables
 Table.initialise_tables()
+
+# Initialize the online system
+online_system = OnlineSystem()
 
 menu = Menu('menu_items.json')
 # menu.display_menu()
@@ -52,6 +54,17 @@ kitchen.complete_item(2)  # Assuming this method marks an item as completed
 
 # Display the invoice (simulating customer review)
 dine_in_order.display_invoice()
+
+# Staff checks the table status
+online_system.check_table_status()
+
+# Staff views the total cost of the order
+# Staff accesses the customer's table to get the total price
+online_system.get_order_status_by_table(2)
+# online_system.display_invoice_by_table_id(2)
+
+# # Staff processes the payment (assuming amount entered by customer is enough)
+# online_system.process_payment(dine_in_customer.table_id, "credit_card", 50.0)  # Example amount
 
 
 
