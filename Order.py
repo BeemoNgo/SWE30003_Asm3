@@ -28,7 +28,9 @@ class Order(Subject):
     def add_item_to_cart(self, item_id, quantity, menu, special_request=""):
         item_info = menu.get_item(item_id)
         if item_info:
-            order_item = OrderItem(item_id, item_info['description'], item_info['price'], quantity, menu, order_id=self.order_id, table_id=self.table_id, delivery_id=self.delivery_id, special_request=special_request)
+            order_item = OrderItem(item_id, item_info['description'], item_info['price'], quantity, menu,
+                                   order_id=self.order_id, table_id=self.table_id, delivery_id=self.delivery_id,
+                                   special_request=special_request)
             self.cart.append(order_item)
             self.total_cart_cost += order_item.get_total_price()
             self.total_cost += order_item.get_total_price()
@@ -53,7 +55,7 @@ class Order(Subject):
                     items_to_remove.append(item)
                     total_removed_cost += item.get_total_price()
                     print(f"Removed all {item.quantity} of {item.description}.")
-                    break  
+                    break
                 else:
                     # If the found item has less quantity than needed, remove it entirely and continue
                     quantity_to_remove -= item.quantity
@@ -93,22 +95,22 @@ class Order(Subject):
 
     def display_order_statuses(self):
         grouped_items = {} # Create a dictionary to group items by table or delivery ID
-        
+
         for item in self.items:
             if item.table_id:
                 key = f"Table {item.table_id}"
             else:
                 key = f"Delivery ID {item.delivery_id}"
-            
+
             if key not in grouped_items:
                 grouped_items[key] = []
             grouped_items[key].append(item)
-        
+
         # Display the statuses grouped by table or delivery
         for key, items in grouped_items.items():
             print(f"Statuses for {key}:")
             for item in items:
-                print(f"{item.quantity} x {item.description}, Status: {item.status}")
+                print(f"{item.quantity} x {item.description} with {item.special_request if item.special_request else 'no special request'}, Status: {item.status}")
 
 
     def display_invoice(self):

@@ -9,7 +9,7 @@ class OrderManagement:
     def __init__(self, menu, online_system):
         self.orders = {}
         self.menu = menu
-        self.online_system = online_system 
+        self.online_system = online_system
 
     @staticmethod
     def initialise_system():
@@ -26,7 +26,7 @@ class OrderManagement:
     def get_next_delivery_id(cls):
         cls.next_delivery_id += 1
         return cls.next_delivery_id - 1
-    
+
     def generate_next_order_id(self):
         self.__class__.next_order_id += 1  # Increment the class variable for order ID
         return self.__class__.next_order_id - 1
@@ -48,10 +48,10 @@ class OrderManagement:
             order = Order(order_id, delivery_id=delivery_id)
             self.orders[order_id] = order
             self.online_system.orders.append(order)
-            order.attach(kitchen)  
+            order.attach(kitchen)
         print(f"Order {order_id} created successfully.")
         return self.orders[order_id]
-    
+
     def add_item_to_cart(self, item_id, quantity, special_request=""):
         self.order.add_item_to_cart(item_id, quantity, self.menu, special_request)
 
