@@ -4,11 +4,11 @@ from Order import Order
 from Reservation import Reservation
 
 class OnlineCustomer(OrderManagement):
-    def __init__(self, menu, customer_name, delivery_id):
+    def __init__(self, menu, customer_name, delivery_id, kitchen):
         super().__init__(menu)
         self.customer_name = customer_name
         self.delivery_id = delivery_id
-        self.order = None
+        self.order = self.create_order("delivery", customer_name, kitchen)
         self.reservation = None
         self.payment_status = False
 

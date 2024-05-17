@@ -25,22 +25,38 @@ class OrderManagement:
     def get_next_delivery_id(cls):
         cls.next_delivery_id += 1
         return cls.next_delivery_id - 1
+    
+    def generate_next_order_id(self):
+        self.__class__.next_order_id += 1  # Increment the class variable for order ID
+        return self.__class__.next_order_id - 1
 
-    def create_order(self, customer_type, customer_name):
+    def create_order(self, customer_type, customer_name, kitchen):
         order_id = self.generate_next_order_id()  # Generate the next order ID
         if customer_type == "dine_in":
             table = self.get_next_available_table()
             if not table:
                 print("No available tables.")
                 return None
-            self.orders[order_id] = Order(order_id, table_id=table.table_id)
+            order = Order(order_id, table_id=table.table_id)
+            self.orders[order_id] = order
             table.set_occupy_table()  # Mark the table as occupied
+            order.attach(kitchen)  # Attach the kitchen observer
         elif customer_type == "delivery":
             delivery_id = self.get_next_delivery_id()
-            self.orders[order_id] = Order(order_id, delivery_id=delivery_id)
+            order = Order(order_id, delivery_id=delivery_id)
+            self.orders[order_id] = order
+            order.attach(kitchen)  
         print(f"Order {order_id} created successfully.")
         return self.orders[order_id]
+    
+    def add_item_to_cart(self, item_id, quantity, special_request=""):
+        self.order.add_item_to_cart(item_id, quantity, self.menu, special_request)
 
-    def generate_next_order_id(self):
-        self.__class__.next_order_id += 1  # Increment the class variable for order ID
-        return self.__class__.next_order_id - 1
+    def remove_item_from_cart(self, item_id, quantity_to_remove):
+        self.order.remove_item_from_cart(item_id, quantity_to_remove)
+
+    def display_order_status(self):
+        self.order.display_order_statuses()
+
+    def display_invoice(self):
+        self.order.display_invoice()

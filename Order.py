@@ -25,10 +25,10 @@ class Order(Subject):
         for observer in self.observers:
             observer.update(self)
 
-    def add_item_to_cart(self, item_id, quantity, menu):
+    def add_item_to_cart(self, item_id, quantity, menu, special_request=""):
         item_info = menu.get_item(item_id)
         if item_info:
-            order_item = OrderItem(item_id, item_info['description'], item_info['price'], quantity, menu, order_id = self.order_id, table_id = self.table_id, delivery_id = self.delivery_id)
+            order_item = OrderItem(item_id, item_info['description'], item_info['price'], quantity, menu, order_id=self.order_id, table_id=self.table_id, delivery_id=self.delivery_id, special_request=special_request)
             self.cart.append(order_item)
             self.total_cart_cost += order_item.get_total_price()
             self.total_cost += order_item.get_total_price()
@@ -40,7 +40,6 @@ class Order(Subject):
         items_to_remove = []  # List to store items to be removed if they are to be fully removed
         total_removed_cost = 0  # Cost of removed items to adjust the total cart cost
 
-        # First, find the item and calculate the total amount to remove
         for item in self.cart:
             if item.item_id == item_id:
                 if item.quantity > quantity_to_remove:
@@ -54,7 +53,7 @@ class Order(Subject):
                     items_to_remove.append(item)
                     total_removed_cost += item.get_total_price()
                     print(f"Removed all {item.quantity} of {item.description}.")
-                    break  # Remove the item completely as it matches the quantity exactly
+                    break  
                 else:
                     # If the found item has less quantity than needed, remove it entirely and continue
                     quantity_to_remove -= item.quantity
