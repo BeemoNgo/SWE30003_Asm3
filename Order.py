@@ -4,13 +4,14 @@ from KitchenOperation import KitchenOperation
 from Table import Table
 
 class Order(Subject):
-    def __init__(self, order_id, table_id=None, delivery_id=None):
+    def __init__(self, order_id, customer_name=None, table_id=None, delivery_id=None):
         self.order_id = order_id
+        self.customer_name = customer_name
         self.table_id = table_id
         self.delivery_id = delivery_id
         self.items = []  # list of OrderItem
-        self.cart = [] #list of OrderItem before sending into the kitchen
-        self.total_cart_cost = 0.0 #total cost of order items before sending to kitchen
+        self.cart = []  # list of OrderItem before sending to the kitchen
+        self.total_cart_cost = 0.0  # total cost of order items before sending to the kitchen
         self.total_cost = 0.0
         self.is_paid = False
         self.observers = []  # List to keep track of observers

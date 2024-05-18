@@ -3,7 +3,6 @@ class Payment:
         self.order = order
 
     def make_payment(self, amount):
-        """ This method will be overridden by subclasses for specific payment methods"""
         pass
 
     def mark_order_paid(self):

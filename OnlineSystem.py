@@ -4,6 +4,7 @@ from Order import Order
 from Payment import Payment
 from BankCard import BankCard
 from Cash import Cash
+from Receipt import Receipt
 
 class OnlineSystem:
     def __init__(self):
@@ -28,6 +29,17 @@ class OnlineSystem:
             order.display_order_statuses()
         else:
             print(f"No order found for Table {table_id}.")
+
+    def activate_table(self, table_id):
+        table = next((t for t in Table.tables if t.table_id == table_id), None)
+        if table:
+            if table.status == "available" or table.status == "reserved":
+                table.set_occupy_table()
+                print(f"Table {table.table_id} has been activated and is now occupied.")
+            else:
+                print(f"Table {table.table_id} is not available for activation (Current status: {table.status}).")
+        else:
+            print("Table ID not found.")
 
     def get_order_by_table(self, table_id):
         for order in self.orders:
@@ -69,6 +81,7 @@ class OnlineSystem:
 
                 if payment.make_payment(amount):
                     table.order_paid()
+                    self.generate_receipt(order, payment_method)  # Generate receipt after payment
                     print(f"Table {table_id} payment processed and table is now free.")
                 else:
                     print(f"Table {table_id} payment failed.")
@@ -76,6 +89,10 @@ class OnlineSystem:
                 print("Order not found for the table.")
         else:
             print("Table is not in 'ordered' status or not found.")
+
+    def generate_receipt(self, order, payment_method):
+        receipt = Receipt(order, payment_method)
+        receipt.generate_receipt()
 
     def make_reservation(self, customer_name, date, time, guests):
         reservation = Reservation(customer_name, date, time, guests)
