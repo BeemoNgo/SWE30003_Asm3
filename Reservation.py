@@ -26,12 +26,12 @@ class Reservation:
         available_tables = [table for table in Table.tables if table.capacity >= guests and table.is_available(date, time)]
         return available_tables
 
-    def make_reservation(self, date, time, guests):
+    def make_reservation(self, name, date, time, guests):
         available_tables = self.check_availability(date, time, guests)
         if available_tables:
             self.table_id = available_tables[0]  # Choose the first available table
             self.table_id.reserve(date, time) 
-            print(f"Reservation {self.reservation_id} made for {self.customer_name} with {guests} guests on {date} at {time} at table {self.table_id.table_id}.")
+            print(f"Reservation {self.reservation_id} made for {name} with {guests} guests on {date} at {time} at table {self.table_id.table_id}.")
             return True 
         print("No tables available for the requested time and date.")
         return False  

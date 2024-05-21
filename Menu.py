@@ -14,7 +14,7 @@ class Menu:
                         'description': item['description'],
                         'price': item['price']
                     }
-            print("Menu items loaded successfully.")
+            # print("Menu items loaded successfully.")
         except FileNotFoundError:
             print("File not found.")
         except json.JSONDecodeError:

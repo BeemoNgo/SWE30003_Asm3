@@ -1,7 +1,7 @@
 from Subject import Subject
 from OrderItem import OrderItem
-from KitchenOperation import KitchenOperation
 from Table import Table
+from KitchenOperation import KitchenOperation  
 
 class Order(Subject):
     def __init__(self, order_id, customer_name=None, table_id=None, delivery_id=None):
@@ -22,9 +22,12 @@ class Order(Subject):
     def detach(self, observer):
         self.observers.remove(observer)
 
-    def notify(self):
+    def notify(self, silent=False):
         for observer in self.observers:
-            observer.update(self)
+            if silent and not isinstance(observer, KitchenOperation):
+                continue
+            observer.update(self, silent=silent)
+
 
     def add_item_to_cart(self, item_id, quantity, menu, special_request=""):
         item_info = menu.get_item(item_id)
@@ -71,12 +74,6 @@ class Order(Subject):
         self.total_cart_cost -= total_removed_cost
         self.total_cost -= total_removed_cost
 
-    # def remove_item(self, item):
-    #     if item in self.items:
-    #         self.total_cost -= item.get_total_price()
-    #         self.items.remove(item)
-    #         print(f"Removed item {item.description} from order.")
-
     def send_to_kitchen(self, kitchen):
         if not self.cart:
             print("Cart is empty. Add items before sending to kitchen.")
@@ -85,17 +82,16 @@ class Order(Subject):
             item.update_status("Pending")
             self.items.append(item)  # Move item from cart to items list
         self.cart = []  # Clear the cart after sending to kitchen
-        self.total_cart_cost = 0.0 # = 0 when send to the kitchen
+        self.total_cart_cost = 0.0  # Reset total cart cost after sending to the kitchen
         if self.table_id:
             table = next((t for t in Table.tables if t.table_id == self.table_id), None)
             if table:
                 table.order_placed()  # Change table status to 'ordered'
-        print("Order successfully sent to the kitchen.")
-        self.notify()  # Notify observers when the order is sent to the kitchen
+        self.notify(silent=True)  # Notify only the kitchen silently
 
 
     def display_order_statuses(self):
-        grouped_items = {} # Create a dictionary to group items by table or delivery ID
+        grouped_items = {}  # Create a dictionary to group items by table or delivery ID
 
         for item in self.items:
             if item.table_id:
@@ -113,11 +109,19 @@ class Order(Subject):
             for item in items:
                 print(f"{item.quantity} x {item.description} with {item.special_request if item.special_request else 'no special request'}, Status: {item.status}")
 
-
     def display_invoice(self):
-            for item in self.items:
-                print(f"{item.quantity}x {item.description} with ${item.price} each: Total ${item.get_total_price()}")
-            print(f"Order Total: ${self.total_cost:.2f}")
+        print("\n" + "="*30)
+        print("INVOICE".center(30))
+        print("="*30)
+        print(f"{'Qty':<5}{'Description':<20}{'Price Each':<10}{'Total'}")
+        print("-"*30)
+        for item in self.items:
+            total_price = item.get_total_price()
+            print(f"{item.quantity:<5}{item.description:<20}${item.price:<10.2f}${total_price:.2f}")
+        print("-"*30)
+        print(f"{'Order Total:':<25}${self.total_cost:.2f}")
+        print("="*30 + "\n")
+
 
     def mark_as_paid(self):
         self.is_paid = True
