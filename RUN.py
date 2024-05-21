@@ -180,10 +180,32 @@ def make_reservation():
 
 def order_food_for_delivery():
     print("Ordering food for delivery:")
-    # Implement the ordering process.
-    menu_id = input("Enter the menu item ID you wish to order: ")
-    quantity = input("Enter the quantity: ")
-    # Proceed with the order using these details.
+    
+    customer_name = input("Enter your name: ")
+    # Create a dine-in order for the customer
+    delivery_order = factory.get_customer("dine_in", menu, customer_name, kitchen)
+
+    # Display the menu
+    menu.display_menu()
+    # Add items to the cart
+    # while True:
+    #     action = input("Enter 'A' to add item, 'R' to remove item, or '0' to finish: ").upper()
+    #     if action == '0':
+    #         break
+    #     elif action == 'A':
+    #         item_id = int(input("Enter item ID to add to cart: "))
+    #         quantity = int(input(f"Enter quantity for item {item_id}: "))
+    #         special_request = input("Any special requests? (press enter to skip): ")
+    #         online_customer.order.add_item_to_cart(item_id, quantity, menu, special_request)
+    #     elif action == 'R':
+    #         if not online_customer.order.cart:
+    #             print("Your cart is empty. No items to remove.")
+    #         else:
+    #             item_id = int(input("Enter item ID to remove from cart: "))
+    #             quantity = int(input(f"Enter quantity to remove for item {item_id}: "))
+    #             online_customer.order.remove_item_from_cart(item_id, quantity)
+    #     else:
+    #         print("Invalid choice. Please enter 'A' to add, 'R' to remove, or '0' to finish.")
 
 if __name__ == "__main__":
     main()
