@@ -182,30 +182,49 @@ def order_food_for_delivery():
     print("Ordering food for delivery:")
     
     customer_name = input("Enter your name: ")
-    # Create a dine-in order for the customer
-    delivery_order = factory.get_customer("dine_in", menu, customer_name, kitchen)
+    # Create a delivery order for the customer
+    delivery_order = factory.get_customer("delivery", menu, customer_name, kitchen)
 
     # Display the menu
     menu.display_menu()
-    # Add items to the cart
-    # while True:
-    #     action = input("Enter 'A' to add item, 'R' to remove item, or '0' to finish: ").upper()
-    #     if action == '0':
-    #         break
-    #     elif action == 'A':
-    #         item_id = int(input("Enter item ID to add to cart: "))
-    #         quantity = int(input(f"Enter quantity for item {item_id}: "))
-    #         special_request = input("Any special requests? (press enter to skip): ")
-    #         online_customer.order.add_item_to_cart(item_id, quantity, menu, special_request)
-    #     elif action == 'R':
-    #         if not online_customer.order.cart:
-    #             print("Your cart is empty. No items to remove.")
-    #         else:
-    #             item_id = int(input("Enter item ID to remove from cart: "))
-    #             quantity = int(input(f"Enter quantity to remove for item {item_id}: "))
-    #             online_customer.order.remove_item_from_cart(item_id, quantity)
-    #     else:
-    #         print("Invalid choice. Please enter 'A' to add, 'R' to remove, or '0' to finish.")
+
+    # Add or remove items from the cart
+    while True:
+        action = input("Enter 'A' to add item, 'R' to remove item, or '0' to finish: ").upper()
+        if action == '0':
+            break
+        elif action == 'A':
+            item_id = int(input("Enter item ID to add to cart: "))
+            quantity = int(input(f"Enter quantity for item {item_id}: "))
+            special_request = input("Any special requests? (press enter to skip): ")
+            delivery_order.order.add_item_to_cart(item_id, quantity, menu, special_request)
+        elif action == 'R':
+            if not delivery_order.order.cart:
+                print("Your cart is empty. No items to remove.")
+            else:
+                item_id = int(input("Enter item ID to remove from cart: "))
+                quantity = int(input(f"Enter quantity to remove for item {item_id}: "))
+                delivery_order.order.remove_item_from_cart(item_id, quantity)
+        else:
+            print("Invalid choice. Please enter 'A' to add, 'R' to remove, or '0' to finish.")
+
+    # Make payment
+    delivery_order.order.display_invoice()
+    amount = float(input("Enter the amount to pay: "))
+    delivery_order.make_payment(amount)
+
+    # After payment, ask the customer if they want to view the invoice or go back to main menu
+    while True:
+        action = input("Select an option: \n1. View Receipt\n2. Track Order Status\n3. Go back to Main Menu\n")
+        if action == '1':
+            delivery_order.generate_receipt()
+        elif action == '2':
+            delivery_order.track_order_status()
+        elif action == '3':
+            main()
+            break
+        else:
+            print("Invalid choice. Please enter '1' to view the invoice, '2' to track order status, or '3' to go back to the main menu.")
 
 if __name__ == "__main__":
     main()
