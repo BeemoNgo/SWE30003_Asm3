@@ -7,14 +7,20 @@ class Receipt:
         self.payment_method = payment_method
 
     def generate_receipt(self):
-        print("------ Relaxing Koala Restaurant ----------")
-        print("-------------- Receipt --------------------")
+        print("\n" + "="*40)
+        print("Relaxing Koala Restaurant".center(40))
+        print("RECEIPT".center(40))
+        print("="*40)
         print(f"Order ID: {self.order_id}")
         print(f"Customer Name: {self.customer_name}")
-        print("Items:")
+        print("-"*40)
+        print(f"{'Qty':<5}{'Description':<20}{'Price Each':<10}{'Total'}")
+        print("-"*40)
         for item in self.items:
-            special_request = f" with special request: {item.special_request}" if item.special_request else ""
-            print(f"{item.quantity} x {item.description} at ${item.price} each{special_request}: ${item.get_total_price()}")
-        print(f"Total Cost: ${self.total_cost:.2f}")
+            total_price = item.get_total_price()
+            print(f"{item.quantity:<5}{item.description:<20}${item.price:<10.2f}${total_price:.2f}")
+        print("-"*40)
+        print(f"{'Total Cost:':<35}${self.total_cost:.2f}")
         print(f"Payment Method: {self.payment_method}")
-        print("-------------------")
+        print("="*40 + "\n")
+

@@ -87,34 +87,3 @@ online_system.process_payment(2, "card", 57.92)  # Example amount
 
 
 
-
-
-
-
-# # Interactive test
-# while True:
-#     print("\n1: Make a reservation\n2: Order food\n3: Make payment\n4: Exit")
-#     choice = input("Choose an action: ")
-
-#     if choice == '1':
-#         print("Making a reservation...")
-#         # Assume reservation details are predefined for simplicity
-#         print("Reservation made for John Doe at 7 PM.")
-#     elif choice == '2':
-#         print("Ordering food...")
-#         # Displaying a simplified menu for selection
-#         print("Menu: 1: Cheeseburger, 2: Veggie Burger")
-#         item_id = int(input("Enter item ID to order: "))
-#         quantity = int(input("Enter quantity: "))
-#         order = customer.place_order(order_management, {item_id: quantity})
-#         print(f"Order placed for {quantity}x {menu.get_item(item_id)['description']}")
-#     elif choice == '3':
-#         if customer.orders:
-#             customer.make_payment(customer.orders[-1])
-#         else:
-#             print("No order to pay for.")
-#     elif choice == '4':
-#         print("Exiting...")
-#         break
-#     else:
-#         print("Invalid choice. Please select a valid option.")

@@ -3,6 +3,7 @@ from Menu import Menu
 # from KitchenOperation import KitchenOperation
 
 class OrderItem:
+    kitchen_id_counter = 1
     def __init__(self, item_id, description, price, quantity, menu, order_id=None, table_id=None, delivery_id=None, special_request=""):
         self.item_id = item_id
         self.description = description
@@ -15,6 +16,8 @@ class OrderItem:
         self.menu = menu
         # self.order_time = datetime.now()
         self.status = None  # could be 'pending', 'preparing', 'served'
+        self.kitchen_id = OrderItem.kitchen_id_counter
+        OrderItem.kitchen_id_counter += 1
 
     def get_total_price(self):
         item = self.menu.get_item(self.item_id)

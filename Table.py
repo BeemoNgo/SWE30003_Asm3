@@ -62,17 +62,3 @@ class Table:
 
     def get_table_info(self):
         return f"Table ID: {self.table_id}, Capacity: {self.capacity}, Current Status: {self.status}"
-
-
-# # Example usage to initialise tables
-# Table.initialise_tables()
-# table10 = Table.tables[10]  # Accessing table 10 which is indexed as 9
-# print(table10)  # Initially available
-# table10.reserve("2023-10-01", "19:00")
-# print(table10)  # Should be reserved
-# table10.set_occupy_table()
-# print(table10.get_table_info())  # Now occupied
-# table10.order_placed()
-# print(table10.get_table_info())  # Status after order placed
-# table10.order_paid()
-# print(table10)  # Should return to available after payment
