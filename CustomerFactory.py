@@ -12,9 +12,12 @@ class CustomerFactory:
             table = OrderManagement.get_next_available_table()
             if table is None:
                 raise ValueError("No tables available")
+            else:
+                print(table.table_id)
             return DineInCustomer(menu, customer_name, table.table_id, kitchen, self.online_system)
         elif customer_type == "delivery":
             delivery_id = OrderManagement.get_next_delivery_id()
+            print(delivery_id)
             return OnlineCustomer(menu, customer_name, delivery_id, kitchen, self.online_system)
         else:
             raise ValueError("Unknown customer type")
