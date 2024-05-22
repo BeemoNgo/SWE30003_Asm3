@@ -1,5 +1,4 @@
 import json
-from tabulate import tabulate
 
 class Menu:
     def __init__(self, file_path):
@@ -25,22 +24,9 @@ class Menu:
         return self.items.get(item_id, None) # Retrieve an item by item_id
     
     def display_menu(self):
-    # Create a list to hold the rows of the table
-        table_rows = []
-
-        if self.items:  # Check if there are items in the menu
-            # Append a header row to the table
-            table_rows.append(["Item ID", "Description", "Price ($)"])
-            
-            # Append each menu item to the table as a row
-            for item_id, details in self.items.items():
-                table_rows.append([item_id, details['description'], "$"+ str(details['price'])])
-
-            # Print the table using tabulate
-            print(tabulate(table_rows, headers="firstrow", tablefmt="grid"))
-        else:
-            print("No items available in the menu.")
-
+        # Correctly referring to self.items for displaying menu
+        for item_id, details in self.items.items():
+            print(f"Item ID: {item_id}, Description: {details['description']}, Price: ${details['price']}")
 
 # # Example usage
 # menu = Menu('menu_items.json')

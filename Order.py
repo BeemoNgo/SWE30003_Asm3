@@ -1,11 +1,7 @@
 from Subject import Subject
 from OrderItem import OrderItem
 from Table import Table
-
-from tabulate import tabulate
-
 from KitchenOperation import KitchenOperation  
-
 
 class Order(Subject):
     def __init__(self, order_id, customer_name=None, table_id=None, delivery_id=None):
@@ -32,9 +28,6 @@ class Order(Subject):
                 continue
             observer.update(self, silent=silent)
 
-
-    def return_cart(self):
-        return self.cart
 
     def add_item_to_cart(self, item_id, quantity, menu, special_request=""):
         item_info = menu.get_item(item_id)
@@ -117,23 +110,6 @@ class Order(Subject):
                 print(f"{item.quantity} x {item.description} with {item.special_request if item.special_request else 'no special request'}, Status: {item.status}")
 
     def display_invoice(self):
-        invoice_rows = []  # List to hold rows of the invoice table
-        print()
-        print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
-        print("Please View your invoice Below")
-        # Append header row to the invoice table
-        invoice_rows.append(["Description", "Price ($)"])
-
-        # Append each item in the order to the invoice table as a row
-        for item in self.items:
-            invoice_rows.append([f"{item.quantity}x {item.description}", f"${item.get_total_price()}"])
-
-        # Append total cost row to the invoice table
-        invoice_rows.append(["Order Total", f"${self.total_cost}"])
-
-        # Print the invoice table using tabulate
-        print(tabulate(invoice_rows, headers="firstrow", tablefmt="grid"))
-
         print("\n" + "="*30)
         print("INVOICE".center(30))
         print("="*30)
@@ -145,6 +121,7 @@ class Order(Subject):
         print("-"*30)
         print(f"{'Order Total:':<25}${self.total_cost:.2f}")
         print("="*30 + "\n")
+
 
     def mark_as_paid(self):
         self.is_paid = True
