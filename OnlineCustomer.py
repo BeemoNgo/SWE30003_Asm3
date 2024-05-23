@@ -2,6 +2,7 @@ from OrderManagement import OrderManagement
 from Menu import Menu
 from Order import Order
 from BankCard import BankCard
+from Receipt import Receipt
 from Reservation import Reservation
 
 class OnlineCustomer(OrderManagement):
@@ -39,11 +40,29 @@ class OnlineCustomer(OrderManagement):
         else:
             print("Payment must be confirmed before placing the order.")
 
-    def make_payment(self, amount):
-        payment = BankCard(self.order)
-        if payment.make_payment(amount):
-            self.payment_status = True
-            print("Payment successful.")
-            self.place_order()  # Automatically place the order if payment is successful
-        else:
-            print("Payment failed.")
+    def make_payment(self):
+        correct_amount = self.order.total_cost
+        print(f"The exact payment amount required is: ${correct_amount:.2f}")
+
+        while not self.payment_status:
+            try:
+                amount = float(input("Enter the exact amount to pay: "))
+                if amount == correct_amount:
+                    payment = BankCard(self.order)
+                    if payment.make_payment(amount):
+                        self.payment_status = True
+                        print("Payment successful.")
+                        self.place_order()  # Automatically place the order if payment is successful
+
+                        break
+                    else:
+                        print("Payment processing failed. Please try again.")
+                else:
+                    print(f"Please enter the exact amount of ${correct_amount:.2f}.")
+            except ValueError:
+                print("Invalid input. Please enter a valid amount.")
+
+    def view_receipt(self):
+        # Generate and print the receipt
+        receipt = Receipt(self.order, "Bank Card")
+        receipt.generate_receipt()

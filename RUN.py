@@ -24,7 +24,7 @@ factory = CustomerFactory(online_system)
 def main():
     print("Welcome to the Relaxing Koala Restaurant")
     choice = input("You are: \n1. Customer\n2. Staff\n")
-    
+
     if choice == "1":
         customer()
     elif choice == "2":
@@ -36,7 +36,7 @@ def main():
 
 def staff():
     choice = input("You are: \n1. Front Staff\n2. Kitchen Staff\n3. Go back\n")
-    
+
     if choice == "1":
         front_staff()
     elif choice == "2":
@@ -92,7 +92,7 @@ def kitchen_staff():
 
 def customer():
     choice = input("Choose your service: \n1. Online\n2. Dine-in\n3. Go back\n")
-    
+
     if choice == "1":
         online_customer_process()
     elif choice == "2":
@@ -106,7 +106,7 @@ def customer():
 def online_customer_process():
     print("Welcome to Online Service")
     choice = input("Select an option:\n1. Make reservation\n2. Order food for delivery\n3. Go back\n")
-    
+
     if choice == "1":
         make_reservation()
     elif choice == "2":
@@ -180,7 +180,7 @@ def make_reservation():
 
 def order_food_for_delivery():
     print("Ordering food for delivery:")
-    
+
     customer_name = input("Enter your name: ")
     # Create a delivery order for the customer
     delivery_order = factory.get_customer("delivery", menu, customer_name, kitchen)
@@ -210,21 +210,20 @@ def order_food_for_delivery():
 
     # Make payment
     delivery_order.order.display_invoice()
-    amount = float(input("Enter the amount to pay: "))
-    delivery_order.make_payment(amount)
+    delivery_order.make_payment()  # This will now include receipt generation on success
 
     # After payment, ask the customer if they want to view the invoice or go back to main menu
     while True:
         action = input("Select an option: \n1. View Receipt\n2. Track Order Status\n3. Go back to Main Menu\n")
         if action == '1':
-            delivery_order.generate_receipt()
+            delivery_order.view_receipt()  # Correct method to generate and view the receipt
         elif action == '2':
             delivery_order.track_order_status()
         elif action == '3':
             main()
             break
         else:
-            print("Invalid choice. Please enter '1' to view the invoice, '2' to track order status, or '3' to go back to the main menu.")
+            print("Invalid choice. Please enter '1' to view the invoice\n'2' to track order status\n'3' to go back to the main menu.")
 
 if __name__ == "__main__":
     main()

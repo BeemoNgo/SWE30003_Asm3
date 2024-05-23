@@ -10,5 +10,4 @@ class Payment:
             print("Payment error: Total cost is not valid.")
             return False
         self.order.mark_as_paid()
-        print("Payment processed successfully. Order marked as paid.")
         return True

@@ -1,7 +1,7 @@
 from Subject import Subject
 from OrderItem import OrderItem
 from Table import Table
-from KitchenOperation import KitchenOperation  
+from KitchenOperation import KitchenOperation
 
 class Order(Subject):
     def __init__(self, order_id, customer_name=None, table_id=None, delivery_id=None):
@@ -38,6 +38,7 @@ class Order(Subject):
             self.cart.append(order_item)
             self.total_cart_cost += order_item.get_total_price()
             self.total_cost += order_item.get_total_price()
+            self.display_cart_details()  # Display the cart details each time an item is added
             print(f"Added {quantity} of {item_info['description']} with {special_request} to cart. Cart Total: ${self.total_cart_cost:.2f}")
         else:
             print("Item not found.")
@@ -52,12 +53,14 @@ class Order(Subject):
                     # Adjust the quantity of the item in the cart
                     item.quantity -= quantity_to_remove
                     total_removed_cost += item.price * quantity_to_remove
+                    self.display_cart_details()  # Display the cart details each time an item is removed
                     print(f"Removed {quantity_to_remove} of {item.description}. Remaining: {item.quantity}. Cart Total: ${self.total_cart_cost - total_removed_cost:.2f}")
                     break  # Since we only need to remove quantity from one match, we can break after adjusting
                 elif item.quantity == quantity_to_remove:
                     # If the quantity matches exactly, remove the item entirely
                     items_to_remove.append(item)
                     total_removed_cost += item.get_total_price()
+                    self.display_cart_details()  # Display the cart details each time an item is removed
                     print(f"Removed all {item.quantity} of {item.description}.")
                     break
                 else:
@@ -73,6 +76,18 @@ class Order(Subject):
         # Update total cart cost
         self.total_cart_cost -= total_removed_cost
         self.total_cost -= total_removed_cost
+
+    def display_cart_details(self):
+        print("\nCurrent Cart:")
+        print("=" * 50)
+        print(f"{'ID':<5}{'Qty':<5}{'Description':<20}{'Each':<10}{'Total':<10}")
+        print("-" * 50)
+        for item in self.cart:
+            total_price = item.get_total_price()
+            print(f"{item.item_id:<5}{item.quantity:<5}{item.description:<20}${item.price:<10.2f}${total_price:.2f}")
+        print("-" * 50)
+        print(f"Cart Total: ${self.total_cart_cost:.2f}")
+        print("=" * 50 + "\n")
 
     def send_to_kitchen(self, kitchen):
         if not self.cart:
@@ -113,7 +128,7 @@ class Order(Subject):
         print("\n" + "="*30)
         print("INVOICE".center(30))
         print("="*30)
-        print(f"{'Qty':<5}{'Description':<20}{'Price Each':<10}{'Total'}")
+        print(f"{'Qty':<5}{'Description':<30}{'Price Each':<10}{'Total'}")
         print("-"*30)
         for item in self.items:
             total_price = item.get_total_price()
@@ -125,4 +140,3 @@ class Order(Subject):
 
     def mark_as_paid(self):
         self.is_paid = True
-        print("Order has been marked as paid.")
