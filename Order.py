@@ -79,7 +79,7 @@ class Order(Subject):
     def display_cart_details(self):
         print("\nCurrent Cart:")
         print("=" * 50)
-        print(f"{'ID':<5}{'Qty':<5}{'Description':<20}{'Each':<10}{'Total':<10}")
+        print(f"{'ID':<5}{'Qty':<5}{'Description':<40}{'Each':<10}{'Total':<10}")
         print("-" * 50)
         for item in self.cart:
             total_price = item.get_total_price()
@@ -124,17 +124,20 @@ class Order(Subject):
                 print(f"{item.quantity} x {item.description} with {item.special_request if item.special_request else 'no special request'}, Status: {item.status}")
 
     def display_invoice(self):
-        print("\n" + "="*30)
-        print("INVOICE".center(30))
-        print("="*30)
-        print(f"{'Qty':<5}{'Description':<30}{'Price Each':<10}{'Total'}")
-        print("-"*30)
+        print("\n" + "="*40)
+        print("Relaxing Koala Restaurant".center(40))
+        print("INVOICE".center(40))
+        print("="*40)
+        print(f"Order ID: {self.order_id}")
+        print(f"Customer Name: {self.customer_name}")
+        print("-"*40)
+        print(f"{'Qty':<5}{'Description':<40}{'Price Each':<10}{'Total'}")
+        print("-"*40)
         for item in self.items:
             total_price = item.get_total_price()
             print(f"{item.quantity:<5}{item.description:<20}${item.price:<10.2f}${total_price:.2f}")
-        print("-"*30)
-        print(f"{'Order Total:':<25}${self.total_cost:.2f}")
-        print("="*30 + "\n")
+        print("-"*40)
+        print(f"{'Total Cost:':<35}${self.total_cost:.2f}")
 
 
     def mark_as_paid(self):
