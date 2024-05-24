@@ -107,7 +107,7 @@ def customer():
                 elif action == '2':
                     existing_order.display_invoice()
                 elif action == '3':
-                    customer()
+                    main()
                     break
                 else:
                     print("Invalid choice. Please select a valid option.")
