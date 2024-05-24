@@ -224,7 +224,7 @@ def make_reservation():
 def order_food_for_delivery():
     print("Ordering food for delivery:")
 
-    customer_name = input("Enter your name: ")
+    customer_name = input("Enter your name, phone number, and adress: ")
     # Create a delivery order for the customer
     delivery_order = factory.get_customer("delivery", menu, customer_name, None, kitchen)
 
