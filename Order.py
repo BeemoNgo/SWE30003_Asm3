@@ -28,7 +28,6 @@ class Order(Subject):
                 continue
             observer.update(self, silent=silent)
 
-
     def add_item_to_cart(self, item_id, quantity, menu, special_request=""):
         item_info = menu.get_item(item_id)
         if item_info:

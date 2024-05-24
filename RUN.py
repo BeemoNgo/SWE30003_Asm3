@@ -91,6 +91,38 @@ def kitchen_staff():
             print("Invalid choice. Please enter a valid option.")
 
 def customer():
+    print("Welcome to Relaxing Koala Restaurant!")
+    # Ask if the customer has an existing order
+    has_order = input("Do you have an existing order? (yes/no): ").strip().lower()
+
+    if has_order == "yes":
+        order_id = input("Please enter your order ID: ")
+        existing_order = OrderManagement.fetch_order_by_id(order_id)
+        if existing_order:
+            print(f"Order {order_id} found. What would you like to do next?")
+            while True:
+                action = input("Options: \n1. Track Order Status\n2. View Receipt\n3. Go back\nChoose an option: ")
+                if action == '1':
+                    existing_order.display_order_statuses()
+                elif action == '2':
+                    existing_order.display_invoice()
+                elif action == '3':
+                    customer()
+                    break
+                else:
+                    print("Invalid choice. Please select a valid option.")
+        else:
+            print("Order ID not found. Please check and try again.")
+            customer()  # Prompt again or return to the main menu
+
+    elif has_order == "no":
+        choose_customer_type()
+
+    else:
+        print("Invalid input, please enter 'yes' or 'no'.")
+        customer()  # Re-prompt the same question
+
+def choose_customer_type():
     choice = input("Choose your service: \n1. Online\n2. Dine-in\n3. Go back\n")
 
     if choice == "1":
@@ -100,8 +132,9 @@ def customer():
     elif choice == "3":
         main()
     else:
-        print("Invalid choice. Please enter 1 or 2.")
-        customer()
+        print("Invalid choice. Please enter 1, 2, or 3.")
+        choose_customer_type()
+
 
 def online_customer_process():
     print("Welcome to Online Service")
