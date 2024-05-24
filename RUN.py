@@ -154,9 +154,10 @@ def dine_in_customer_process():
     print("Welcome to Dine-in Service")
 
     customer_name = input("Please enter your name: ")
+    table_id = int(input("Please enter your table ID: "))
 
     # Create a dine-in order for the customer
-    dine_in_order = factory.get_customer("dine_in", menu, customer_name, kitchen)
+    dine_in_order = factory.get_customer("dine_in", menu, customer_name, table_id, kitchen)
     # Display the menu
     menu.display_menu()
     # Add or remove items from the cart
@@ -181,6 +182,7 @@ def dine_in_customer_process():
 
     # Send the order to the kitchen
     dine_in_order.order.send_to_kitchen(kitchen)
+    online_system.add_order(dine_in_order.order)
     print("Order successfully sent to kitchen.")
 
     # After sending the order to the kitchen, ask the customer if they want to view the invoice or go back to main menu

@@ -12,6 +12,9 @@ class OnlineSystem:
         self.tables = {table.table_id: table for table in Table.tables}
         self.orders = []
 
+    def add_order(self, order):
+        self.orders.append(order)
+
     def get_reservation_info(self, reservation_id):
         reservation = self.reservations.get(reservation_id)
         if reservation:
@@ -31,7 +34,7 @@ class OnlineSystem:
             print(f"No order found for Table {table_id}.")
 
     def activate_table(self, table_id):
-        table = next((t for t in Table.tables if t.table_id == table_id), None)
+        table = self.tables.get(table_id)
         if table:
             if table.status == "available" or table.status == "reserved":
                 table.set_occupy_table()

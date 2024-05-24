@@ -18,7 +18,7 @@ class KitchenOperation(Observer):
             table_or_delivery = f"Table {item.table_id}" if item.table_id else f"Delivery ID {item.delivery_id}"
             item.status = new_status
             special_request = f" with special request: {item.special_request}" if item.special_request else ""
-            print(f"Status for {item.description} from {table_or_delivery}{special_request} updated to {new_status}.")
+            # print(f"Status for {item.description} from {table_or_delivery}{special_request} updated to {new_status}.")
         else:
             print("Kitchen ID not found.")
 
@@ -35,7 +35,7 @@ class KitchenOperation(Observer):
 
     def complete_item(self, kitchen_id):
         index_to_remove, item_to_remove = next(
-            ((index, itm) for index, itm in enumerate(self.order_queue) if itm.kitchen_id == kitchen_id), 
+            ((index, itm) for index, itm in enumerate(self.order_queue) if itm.kitchen_id == kitchen_id),
             (None, None)
         )
         if index_to_remove is not None:

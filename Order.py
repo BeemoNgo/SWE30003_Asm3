@@ -83,7 +83,7 @@ class Order(Subject):
         print("-" * 50)
         for item in self.cart:
             total_price = item.get_total_price()
-            print(f"{item.item_id:<5}{item.quantity:<5}{item.description:<20}${item.price:<10.2f}${total_price:.2f}")
+            print(f"{item.item_id:<5}{item.quantity:<5}{item.description:<40}${item.price:<10.2f}${total_price:.2f}")
         print("-" * 50)
         print(f"Cart Total: ${self.total_cart_cost:.2f}")
         print("=" * 50 + "\n")
@@ -135,7 +135,7 @@ class Order(Subject):
         print("-"*40)
         for item in self.items:
             total_price = item.get_total_price()
-            print(f"{item.quantity:<5}{item.description:<20}${item.price:<10.2f}${total_price:.2f}")
+            print(f"{item.quantity:<5}{item.description:<40}${item.price:<10.2f}${total_price:.2f}")
         print("-"*40)
         print(f"{'Total Cost:':<35}${self.total_cost:.2f}")
 

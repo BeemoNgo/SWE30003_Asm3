@@ -6,7 +6,7 @@ class DineInCustomer(OrderManagement):
         super().__init__(menu, online_system)
         self.customer_name = customer_name
         self.table_id = table_id
-        self.order = self.create_order("dine_in", customer_name, kitchen)
+        self.order = self.create_order("dine_in", customer_name, table_id, kitchen)
 
     def send_to_kitchen(self, kitchen):
         self.order.send_to_kitchen(kitchen)

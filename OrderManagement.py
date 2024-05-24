@@ -16,36 +16,26 @@ class OrderManagement:
         Table.initialise_tables()  # Initialize tables
 
     @classmethod
-    def get_next_available_table(cls):
-        for table in Table.tables:
-            if table.is_available(None, None):  # Simplified check for the example
-                return table
-        return None
-
-    @classmethod
     def get_next_delivery_id(cls):
         cls.next_delivery_id += 1
         return cls.next_delivery_id - 1
 
-    def generate_next_order_id(self):
-        self.__class__.next_order_id += 1  # Increment the class variable for order ID
-        return self.__class__.next_order_id - 1
+    @classmethod
+    def generate_next_order_id(cls):
+        cls.next_order_id += 1  # Increment the class variable for order ID
+        return cls.next_order_id - 1
 
     @classmethod
     def fetch_order_by_id(cls, order_id):
         return cls.orders_dict.get(str(order_id))
 
 
-    def create_order(cls, customer_type, customer_name, kitchen):
+    @classmethod
+    def create_order(cls, customer_type, customer_name, table_id, kitchen):
         order_id = cls.generate_next_order_id()  # Generate the next order ID
         if customer_type == "dine_in":
-            table = cls.get_next_available_table()
-            if not table:
-                print("No available tables.")
-                return None
-            order = Order(order_id, customer_name=customer_name, table_id=table.table_id)
+            order = Order(order_id, customer_name=customer_name, table_id=table_id)
             cls.orders_dict[str(order_id)] = order  # Add the order to the dictionary
-            table.set_occupy_table()  # Mark the table as occupied
             order.attach(kitchen)  # Attach the kitchen observer
         elif customer_type == "delivery":
             delivery_id = cls.get_next_delivery_id()

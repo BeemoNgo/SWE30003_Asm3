@@ -46,7 +46,7 @@ class Table:
             print(f"Table occupied: {self}")
 
     def order_placed(self):
-        if self.status == "occupied":
+        if self.status == "occupied" or self.status == "reserved" or self.status == "available":
             self.status = "ordered"
             print(f"Order placed: {self}")
 
