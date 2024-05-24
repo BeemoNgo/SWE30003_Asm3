@@ -78,15 +78,16 @@ class Order(Subject):
 
     def display_cart_details(self):
         print("\nCurrent Cart:")
-        print("=" * 50)
+        print("=" * 70)
         print(f"{'ID':<5}{'Qty':<5}{'Description':<40}{'Each':<10}{'Total':<10}")
-        print("-" * 50)
+        print("-" * 70)
         for item in self.cart:
             total_price = item.get_total_price()
             print(f"{item.item_id:<5}{item.quantity:<5}{item.description:<40}${item.price:<10.2f}${total_price:.2f}")
-        print("-" * 50)
-        print(f"Cart Total: ${self.total_cart_cost:.2f}")
-        print("=" * 50 + "\n")
+        print("-" * 70)
+        print(f"{'Cart Total:':<10}${self.total_cart_cost:.2f}")
+        print("=" * 70 + "\n")
+
 
     def send_to_kitchen(self, kitchen):
         if not self.cart:
@@ -124,20 +125,22 @@ class Order(Subject):
                 print(f"{item.quantity} x {item.description} with {item.special_request if item.special_request else 'no special request'}, Status: {item.status}")
 
     def display_invoice(self):
-        print("\n" + "="*40)
-        print("Relaxing Koala Restaurant".center(40))
-        print("INVOICE".center(40))
-        print("="*40)
+        print("\n" + "=" * 70)
+        print("Relaxing Koala Restaurant".center(70))
+        print("INVOICE".center(70))
+        print("=" * 75)
         print(f"Order ID: {self.order_id}")
         print(f"Customer Name: {self.customer_name}")
-        print("-"*40)
-        print(f"{'Qty':<5}{'Description':<40}{'Price Each':<10}{'Total'}")
-        print("-"*40)
+        print("-" * 70)
+        print(f"{'Qty':<5}{'Description':<50}{'Each':<10}{'Total':<10}")
+        print("-" * 70)
         for item in self.items:
             total_price = item.get_total_price()
-            print(f"{item.quantity:<5}{item.description:<40}${item.price:<10.2f}${total_price:.2f}")
-        print("-"*40)
-        print(f"{'Total Cost:':<35}${self.total_cost:.2f}")
+            print(f"{item.quantity:<5}{item.description:<50}${item.price:<10.2f}${total_price:.2f}")
+        print("-" * 70)
+        print(f"{'Total Cost:':<10}${self.total_cost:.2f}")
+        print("=" * 70 + "\n")
+
 
 
     def mark_as_paid(self):

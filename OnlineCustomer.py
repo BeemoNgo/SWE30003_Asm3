@@ -10,7 +10,7 @@ class OnlineCustomer(OrderManagement):
         super().__init__(menu, online_system)
         self.customer_name = customer_name
         self.delivery_id = delivery_id
-        self.order = self.create_order("delivery", customer_name, kitchen)
+        self.order = self.create_order("delivery", customer_name, None, kitchen)
         self.reservation = None
         self.payment_status = False
         self.kitchen = kitchen

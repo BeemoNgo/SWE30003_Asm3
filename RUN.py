@@ -198,27 +198,35 @@ def dine_in_customer_process():
 
 def make_reservation():
     print("Making a reservation:")
-    name = input("Please enter your name: ")
-    date = input("Enter the date of your reservation (YYYY-MM-DD): ")
-    time = input("Enter the time of your reservation (HH:MM): ")
-    guests = int(input("Enter the number of guests: "))
+    while True:
+        name = input("Please enter your name: ")
+        date = input("Enter the date of your reservation (YYYY-MM-DD): ")
+        time = input("Enter the time of your reservation (HH:MM): ")
+        guests = int(input("Enter the number of guests: "))
 
-    try:
-        online_customer = Reservation(name, date, time, guests)
-        success = online_customer.make_reservation(name, date, time, guests)
-        if success:
-            print("Reservation made successfully.")
-        else:
-            print("Failed to make reservation. Please try again.")
-    except Exception as e:
-        print(f"An error occurred: {e}")
+        try:
+            online_customer = Reservation(name, date, time, guests)
+            success = online_customer.make_reservation(name, date, time, guests)
+            if success:
+                print("Reservation made successfully.")
+            else:
+                print("Failed to make reservation. Please try again.")
+        except Exception as e:
+            print(f"An error occurred: {e}")
+
+        # Ask the user if they want to make another reservation or go back
+        next_action = input("Would you like to make another reservation or go back? (make/back): ").strip().lower()
+        if next_action == "back":
+            break
+
+    main()
 
 def order_food_for_delivery():
     print("Ordering food for delivery:")
 
     customer_name = input("Enter your name: ")
     # Create a delivery order for the customer
-    delivery_order = factory.get_customer("delivery", menu, customer_name, kitchen)
+    delivery_order = factory.get_customer("delivery", menu, customer_name, None, kitchen)
 
     # Display the menu
     menu.display_menu()

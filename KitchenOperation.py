@@ -29,6 +29,8 @@ class KitchenOperation(Observer):
             table_or_delivery = f"Table {item.table_id}" if item.table_id else f"Delivery ID {item.delivery_id}"
             special_request = f" with special request: {item.special_request}" if item.special_request else ""
             print(f"Order ID {item.order_id}\n{table_or_delivery} \n{item.quantity} x {item.description}{special_request} Status: {item.status}\n")
+            print()
+
 
     def start_preparing(self, kitchen_id):
         self.update_order_item_status(kitchen_id, "Preparing")

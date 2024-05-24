@@ -23,8 +23,26 @@ class OnlineSystem:
             print("Reservation not found.")
 
     def check_table_status(self):
+        print("\033[1;37;40mTable Status Overview\033[0m")  # Bold white text on black background for the header
+        print("-" * 40)  # Wider separator for better visual separation
+        print(f"{'Table ID':<10}{'Status':<30}")
+        print("-" * 40)
         for table_id, table in self.tables.items():
-            print(f"Table {table_id}: {table.status}")
+            if table.status == "available":
+                status_color = "\033[1;32m"  # Green for available
+            elif table.status == "occupied":
+                status_color = "\033[1;33m"  # Yellow for occupied
+            elif table.status == "ordered":
+                status_color = "\033[1;34m"  # Blue for ordered
+            elif table.status == "reserved":
+                status_color = "\033[1;35m"  # Magenta for reserved
+            else:
+                status_color = "\033[1;37m"  # White for any other status
+
+            # Format table row with colored status
+            print(f"{table_id:<10}{status_color}{table.status:<30}\033[0m")  # Reset to default after color
+        print("-" * 40)
+
 
     def get_order_status_by_table(self, table_id):
         order = self.get_order_by_table(table_id)
