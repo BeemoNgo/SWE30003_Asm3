@@ -23,13 +23,16 @@ class KitchenOperation(Observer):
             print("Kitchen ID not found.")
 
     def display_all_order_statuses(self):
-        print("Current order statuses in the kitchen:")
-        for item in self.order_queue:
-            print(f"------- {item.kitchen_id} --------")
-            table_or_delivery = f"Table {item.table_id}" if item.table_id else f"Delivery ID {item.delivery_id}"
-            special_request = f" with special request: {item.special_request}" if item.special_request else ""
-            print(f"Order ID {item.order_id}\n{table_or_delivery} \n{item.quantity} x {item.description}{special_request} Status: {item.status}\n")
-            print()
+         print("Current order statuses in the kitchen:")
+         for item in self.order_queue:
+             print(f"-------- {item.kitchen_id} --------")
+             table_or_delivery = f"Table {item.table_id}" if item.table_id else f"Delivery ID {item.delivery_id}"
+             special_request = f" with special request: {item.special_request}" if item.special_request else ""
+             print(f"Order ID: {item.order_id}")
+             print(f"{table_or_delivery}")
+             print(f"{item.quantity} x {item.description}{special_request}")
+             print(f"Status: {item.status}")
+             print("-" * 40)
 
 
     def start_preparing(self, kitchen_id):
