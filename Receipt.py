@@ -7,20 +7,19 @@ class Receipt:
         self.payment_method = payment_method
 
     def generate_receipt(self):
-        print("\n" + "=" * 50)
-        print("Relaxing Koala Restaurant".center(50))
-        print("RECEIPT".center(50))
-        print("=" * 50)
+        print("\n" + "=" * 70)
+        print("Relaxing Koala Restaurant".center(70))
+        print("RECEIPT".center(70))
+        print("=" * 70)
         print(f"Order ID: {self.order_id}")
         print(f"Customer Name: {self.customer_name}")
-        print("-" * 50)
-        print(f"{'Qty':<5}{'Item':<25}{'Unit Price':>10}{'Total':>10}")
-        print("-" * 50)
+        print("-" * 70)
+        print(f"{'Qty':<5}{'Item':<30}{'Unit Price':<10}{'Total':<10}")
+        print("-" * 70)
         for item in self.items:
             total_price = item.get_total_price()
-            print(f"{item.quantity:<5}{item.description:<25}${item.price:>10,.2f}${total_price:>10,.2f}")
-        print("-" * 50)
-        print(f"{'Total Cost:':<10}${self.total_cost:.2f}")
+            print(f"{item.quantity:<5}{item.description:<30}${item.price:<10.2f}${total_price:<10.2f}")
+        print("-" * 70)
+        print(f"{'Total Cost:':<45}${self.total_cost:.2f}")
         print(f"Payment Method: {self.payment_method}")
-        print("=" * 50 + "\n")
-
+        print("=" * 70 + "\n")
