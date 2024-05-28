@@ -77,16 +77,16 @@ class Order(Subject):
         self.total_cost -= total_removed_cost
 
     def display_cart_details(self):
-        print("\nCurrent Cart:")
-        print("=" * 70)
-        print(f"{'ID':<5}{'Qty':<5}{'Description':<40}{'Each':<10}{'Total':<10}")
-        print("-" * 70)
-        for item in self.cart:
-            total_price = item.get_total_price()
-            print(f"{item.item_id:<5}{item.quantity:<5}{item.description:<40}${item.price:<10.2f}${total_price:.2f}")
-        print("-" * 70)
-        print(f"{'Cart Total:':<10}${self.total_cart_cost:.2f}")
-        print("=" * 70 + "\n")
+       print("\nCurrent Cart:")
+       print("=" * 70)
+       print(f"{'ID':<5}{'Qty':<5}{'Description':<40}{'Each':<10}{'Total':<10}")
+       print("-" * 70)
+       for item in self.cart:
+           total_price = item.get_total_price()
+           print(f"{item.item_id:<5}{item.quantity:<5}{item.description:<40}${item.price:<9.2f}${total_price:<9.2f}")
+       print("=" * 70)
+       print(f"{'Cart Total:':<55}${self.total_cart_cost:.2f}")
+       print("=" * 70 + "\n")
 
 
     def send_to_kitchen(self, kitchen):
@@ -128,17 +128,17 @@ class Order(Subject):
         print("\n" + "=" * 70)
         print("Relaxing Koala Restaurant".center(70))
         print("INVOICE".center(70))
-        print("=" * 75)
+        print("=" * 70)
         print(f"Order ID: {self.order_id}")
         print(f"Customer Name: {self.customer_name}")
         print("-" * 70)
-        print(f"{'Qty':<5}{'Description':<50}{'Each':<10}{'Total':<10}")
+        print(f"{'Qty':<5}{'Description':<40}{'Each':<10}{'Total':<10}")
         print("-" * 70)
         for item in self.items:
             total_price = item.get_total_price()
-            print(f"{item.quantity:<5}{item.description:<50}${item.price:<10.2f}${total_price:.2f}")
+            print(f"{item.quantity:<5}{item.description:<40}${item.price:<9.2f}${total_price:<9.2f}")
         print("-" * 70)
-        print(f"{'Total Cost:':<10}${self.total_cost:.2f}")
+        print(f"{'Total Cost:':<55}${self.total_cost:.2f}")
         print("=" * 70 + "\n")
 
 
