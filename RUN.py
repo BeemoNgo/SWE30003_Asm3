@@ -301,7 +301,7 @@ def order_food_for_delivery():
         action = input("Select an option: \n1. View Receipt\n2. Track Order Status\n3. Go back to Main Menu\n")
         if action == '1':
             clear_screen()
-            delivery_order.view_receipt()  # Correct method to generate and view the receipt
+            delivery_order.view_receipt()
         elif action == '2':
             clear_screen()
             delivery_order.track_order_status()

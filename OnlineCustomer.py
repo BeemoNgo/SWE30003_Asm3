@@ -43,7 +43,7 @@ class OnlineCustomer(OrderManagement):
     def make_payment(self):
         # Display the invoice with the cart details before making payment
         self.order.display_invoice(show_cart=True)
-        
+
         correct_amount = self.order.total_cost
         print(f"The exact payment amount required is: ${correct_amount:.2f}")
 
