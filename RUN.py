@@ -181,15 +181,15 @@ def dine_in_customer_process():
         table_id = int(input("Please enter your table ID: "))
         # Find the table with the given ID
         table = next((t for t in Table.tables if t.table_id == table_id), None)
-        
+
         if table and table.status in ["available", "occupied"]:  # Proceed if the table is available or occupied
-            break 
+            break
         else:
             print("This table is not available for ordering. Please select a different table.")
 
     # Create a dine-in order for the customer
     dine_in_order = factory.get_customer("dine_in", menu, customer_name, table_id, kitchen)
-    
+
     # Add or remove items from the cart
     while True:
         action = input("Enter 'A' to add item, 'R' to remove item, or '0' to finish: ").upper()
@@ -212,20 +212,23 @@ def dine_in_customer_process():
                 dine_in_order.order.remove_item_from_cart(item_id, quantity)
         else:
             print("Invalid choice. Please enter 'A' to add, 'R' to remove, or '0' to finish.")
-            
+
     clear_screen()
     # Send the order to the kitchen
     dine_in_order.order.send_to_kitchen(kitchen)
     online_system.add_order(dine_in_order.order)
     print("Order successfully sent to kitchen.")
-    
+
     # After sending the order to the kitchen, ask the customer if they want to view the invoice or go back to main menu
     while True:
-        action = input("Select an option: \n1. View Invoice\n2. Go back to Main Menu\n")
+        action = input("Select an option:\n1. Track order status\n2. View Invoice\n3. Go back to Main Menu\n")
         if action == '1':
             clear_screen()
-            dine_in_order.order.display_invoice()
+            dine_in_order.order.display_order_statuses()
         elif action == '2':
+            clear_screen()
+            dine_in_order.order.display_invoice()
+        elif action == '3':
             main()
             break
         else:
@@ -291,11 +294,10 @@ def order_food_for_delivery():
 
     clear_screen()
     # Make payment
-    delivery_order.make_payment() 
+    delivery_order.make_payment()
 
     # After payment, ask the customer if they want to view the invoice or go back to main menu
     while True:
-        clear_screen()
         action = input("Select an option: \n1. View Receipt\n2. Track Order Status\n3. Go back to Main Menu\n")
         if action == '1':
             clear_screen()
