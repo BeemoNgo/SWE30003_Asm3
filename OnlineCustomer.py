@@ -41,6 +41,9 @@ class OnlineCustomer(OrderManagement):
             print("Payment must be confirmed before placing the order.")
 
     def make_payment(self):
+        # Display the invoice with the cart details before making payment
+        self.order.display_invoice(show_cart=True)
+        
         correct_amount = self.order.total_cost
         print(f"The exact payment amount required is: ${correct_amount:.2f}")
 
@@ -53,7 +56,6 @@ class OnlineCustomer(OrderManagement):
                         self.payment_status = True
                         print("Payment successful.")
                         self.place_order()  # Automatically place the order if payment is successful
-
                         break
                     else:
                         print("Payment processing failed. Please try again.")

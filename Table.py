@@ -53,7 +53,6 @@ class Table:
     def order_paid(self):
         if self.status == "ordered":
             self.status = "available"
-            print(f"Order paid, table now available: {self}")
 
     def check_status(self):
         if not self.reservations:

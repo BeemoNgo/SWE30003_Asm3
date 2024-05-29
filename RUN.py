@@ -154,7 +154,15 @@ def dine_in_customer_process():
     print("Welcome to Dine-in Service")
 
     customer_name = input("Please enter your name: ")
-    table_id = int(input("Please enter your table ID: "))
+    while True:
+        table_id = int(input("Please enter your table ID: "))
+        # Find the table with the given ID
+        table = next((t for t in Table.tables if t.table_id == table_id), None)
+        
+        if table and table.status in ["available", "occupied"]:  # Proceed if the table is available or occupied
+            break 
+        else:
+            print("This table is not available for ordering. Please select a different table.")
 
     # Create a dine-in order for the customer
     dine_in_order = factory.get_customer("dine_in", menu, customer_name, table_id, kitchen)
@@ -252,8 +260,7 @@ def order_food_for_delivery():
             print("Invalid choice. Please enter 'A' to add, 'R' to remove, or '0' to finish.")
 
     # Make payment
-    delivery_order.order.display_invoice()
-    delivery_order.make_payment()  # This will now include receipt generation on success
+    delivery_order.make_payment() 
 
     # After payment, ask the customer if they want to view the invoice or go back to main menu
     while True:

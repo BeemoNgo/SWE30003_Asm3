@@ -38,7 +38,6 @@ class Order(Subject):
             self.total_cart_cost += order_item.get_total_price()
             self.total_cost += order_item.get_total_price()
             self.display_cart_details()  # Display the cart details each time an item is added
-            print(f"Added {quantity} of {item_info['description']} with {special_request} to cart. Cart Total: ${self.total_cart_cost:.2f}")
         else:
             print("Item not found.")
 
@@ -124,7 +123,7 @@ class Order(Subject):
             for item in items:
                 print(f"{item.quantity} x {item.description} with {item.special_request if item.special_request else 'no special request'}, Status: {item.status}")
 
-    def display_invoice(self):
+    def display_invoice(self, show_cart=False):
         print("\n" + "=" * 70)
         print("Relaxing Koala Restaurant".center(70))
         print("INVOICE".center(70))
@@ -134,11 +133,16 @@ class Order(Subject):
         print("-" * 70)
         print(f"{'Qty':<5}{'Description':<40}{'Each':<10}{'Total':<10}")
         print("-" * 70)
-        for item in self.items:
+
+        items_to_display = self.cart if show_cart else self.items
+        total_cost_display = self.total_cart_cost if show_cart else self.total_cost
+
+        for item in items_to_display:
             total_price = item.get_total_price()
             print(f"{item.quantity:<5}{item.description:<40}${item.price:<9.2f}${total_price:<9.2f}")
+
         print("-" * 70)
-        print(f"{'Total Cost:':<55}${self.total_cost:.2f}")
+        print(f"{'Total Cost:':<55}${total_cost_display:.2f}")
         print("=" * 70 + "\n")
 
 
